@@ -49,7 +49,7 @@ public class BrSupervisorService {
             //Br specific
             brSupervisor.setDistributionHouse(distributionHouseRepository.findOne(json.getLong("distributionHouse")));
 
-            //User basic
+            //UserInterface basic
             UserBasic basic = new UserBasic();
             basic.setUsername(json.getString(Strings.username));
             basic.setPassword(json.getString(Strings.password));

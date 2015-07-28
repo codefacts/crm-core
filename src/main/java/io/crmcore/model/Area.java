@@ -10,6 +10,13 @@ import java.util.Date;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "areas")
 public class Area implements Serializable, Model {
+
+    public static class Props {
+        public static final String name = "name";
+        public static final String region = "region";
+        public static final String active = "active";
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -54,9 +61,11 @@ public class Area implements Serializable, Model {
     public void setId(Long id) {
         this.id = id;
     }
+
     public Region getRegion() {
         return region;
     }
+
     public void setRegion(Region region) {
         this.region = region;
     }

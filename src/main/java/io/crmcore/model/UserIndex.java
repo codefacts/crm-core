@@ -14,7 +14,7 @@ public class UserIndex implements Model {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    //User specific basics
+    //UserInterface specific basics
     @Column(length = 20, unique = true, nullable = false, updatable = false)
     private String userId;
     @Column(nullable = false, updatable = false)

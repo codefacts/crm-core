@@ -12,11 +12,14 @@ import java.util.Set;
 @Entity
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "area_coordinators")
-public class AreaCoordinator extends Employee implements ConcreteUser<Long> {
-
+public class AreaCoordinator extends Employee implements ConcreteUserInterface<Long> {
+    public static class Props {
+        public static final String area = "area";
+    }
     @OneToOne
     private Area area;
 
+    //User
     @ManyToMany(fetch = FetchType.EAGER)
     protected Set<Role> roles;
 

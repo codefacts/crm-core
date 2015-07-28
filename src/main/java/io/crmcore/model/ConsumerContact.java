@@ -4,13 +4,36 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Calendar;
 import java.util.Date;
 
 @Entity
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "consumer_contacts")
 public class ConsumerContact implements Serializable, Model {
+    public static class Props {
+        public static final String region = "region";
+        public static final String area = "area";
+        public static final String distributionHouse = "distributionHouse";
+        public static final String br = "br";
+        public static final String consumer = "consumer";
+        public static final String brand = "brand";
+        public static final String name = "name";
+        public static final String fatherName = "fatherName";
+        public static final String phone = "phone";
+        public static final String occupation = "occupation";
+
+        public static final String age = "age";
+        public static final String date = "date";
+
+        public static final String description = "description";
+
+        public static final String ptr = "ptr";
+        public static final String swp = "swp";
+
+        public static final String latitude = "latitude";
+        public static final String longitude = "longitude";
+        public static final String accuracy = "accuracy";
+    }
 
     public static final String col_contact_date = "contact_date";
 
@@ -38,7 +61,7 @@ public class ConsumerContact implements Serializable, Model {
     @Column(columnDefinition = "varchar(15) NULL DEFAULT NULL")
     private String phone;
     @Column(columnDefinition = "varchar(1000) NULL DEFAULT NULL")
-    private String Occupation;
+    private String occupation;
     private int age;
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "contact_date")
@@ -179,11 +202,11 @@ public class ConsumerContact implements Serializable, Model {
     }
 
     public String getOccupation() {
-        return Occupation;
+        return occupation;
     }
 
     public void setOccupation(String occupation) {
-        Occupation = occupation;
+        this.occupation = occupation;
     }
 
     public int getAge() {

@@ -10,6 +10,11 @@ import java.util.Date;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "houses")
 public class DistributionHouse implements Serializable, Model {
+    public static class Props {
+        public static final String name = "name";
+        public static final String area = "area";
+        public static final String active = "active";
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

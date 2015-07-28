@@ -48,7 +48,7 @@ public class AreaCoordinatorService {
             //Br specific
             areaCoordinator.setArea(areaRepository.findOne(json.getLong("area")));
 
-            //User basic
+            //UserInterface basic
             final UserBasic basic = userBasicService.save(json.getString(Strings.username), json.getString(Strings.password));
 
             repository.save(areaCoordinator);

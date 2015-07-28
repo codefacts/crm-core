@@ -53,7 +53,7 @@ public class BrService {
             br.setTown(townRepository.findOne(json.getLong("town")));
             br.setBrand(brandRepository.findOne(json.getLong("brand")));
 
-            //User basic
+            //UserInterface basic
             UserBasic basic = new UserBasic();
             basic.setUsername(json.getString(Strings.username));
             basic.setPassword(json.getString(Strings.password));

@@ -1,35 +1,45 @@
 package io.crmcore.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
-import java.util.*;
+import java.util.Date;
 
-public interface User<T> extends Identifiable<T> {
+/**
+ * Created by sohan on 7/29/2015.
+ */
+public class User {
+    public static class Props {
+        public static final String firstName = "firstName";
+        public static final String lastName = "lastName";
+        public static final String dateOfBirth = "dateOfBirth";
+        public static final String mail = "mail";
+        public static final String phone = "phone";
+        public static final String address = "address";
+        public static final String roles = "roles";
 
-    public void setId(Long id);
+        public static final String joinDate = "joinDate";
+        public static final String resignDate = "resignDate";
 
-    public String getFirstName();
+        public static final String fatherName = "fatherName";
+        public static final String occupation = "occupation";
 
-    public void setFirstName(String firstName);
+        public static final String username = "username";
+        public static final String password = "password";
 
-    public String getLastName();
+        public static final String active = "active";
+    }
 
-    public void setLastName(String lastName);
+    @Column(columnDefinition = "varchar(250) null default null")
+    protected String firstName;
+    @Column(columnDefinition = "varchar(250) null default null")
+    protected String lastName;
+    @Temporal(TemporalType.DATE)
+    protected Date dateOfBirth;
+    @Column(columnDefinition = "varchar(250) null default null")
+    protected String mail;
+    @Column(columnDefinition = "varchar(15) null default null")
+    protected String phone;
 
-    public Date getDateOfBirth();
-
-    public void setDateOfBirth(Date dateOfBirth);
-
-    public String getMail();
-
-    public void setMail(String mail);
-
-    public String getPhone();
-
-    public void setPhone(String phone);
-
-    public Address getAddress();
-
-    public void setAddress(Address address);
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @JoinColumn(nullable = true)
+    protected Address address;
 }

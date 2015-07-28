@@ -9,7 +9,13 @@ import java.util.Set;
 @Entity
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "brs")
-public class Br extends Employee implements ConcreteUser<Long> {
+public class Br extends Employee implements ConcreteUserInterface<Long> {
+    public static class Props {
+        public static final String distributionHouse = "distributionHouse";
+        public static final String brand = "brand";
+        public static final String town = "town";
+    }
+
     @ManyToOne
     private DistributionHouse distributionHouse;
     @ManyToOne

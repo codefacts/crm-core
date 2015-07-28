@@ -11,6 +11,18 @@ import javax.persistence.*;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "addresses")
 public class Address implements Model {
+    public static class Props {
+        public static final String house = "house";
+        public static final String street = "street";
+        public static final String postCode = "postCode";
+        public static final String postOffice = "postOffice";
+        public static final String policeStation = "policeStation";
+
+        public static final String district = "district";
+        public static final String division = "division";
+        public static final String country = "country";
+        public static final String description = "description";
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

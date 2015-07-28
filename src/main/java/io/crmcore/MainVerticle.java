@@ -5,7 +5,6 @@ import io.crmcore.model.*;
 import io.crmcore.service.*;
 import io.vertx.core.*;
 import io.vertx.core.eventbus.EventBus;
-import io.vertx.core.eventbus.Message;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -63,7 +62,7 @@ public class MainVerticle extends AbstractVerticle {
         bus.registerDefaultCodec(Role.class, ctx.getBean(RoleCodec.class));
         bus.registerDefaultCodec(Town.class, ctx.getBean(TownCodec.class));
         bus.registerDefaultCodec(UserBasic.class, ctx.getBean(UserBasicCodec.class));
-        bus.registerDefaultCodec(User.class, ctx.getBean(UserCodec.class));
+        bus.registerDefaultCodec(UserInterface.class, ctx.getBean(UserCodec.class));
         bus.registerDefaultCodec(UserIndex.class, ctx.getBean(UserIndexCodec.class));
         bus.registerDefaultCodec(ArrayList.class, ctx.getBean(ArrayListToJsonArrayCodec.class));
     }

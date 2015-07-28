@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.UUID;
 
 /**
  * Created by someone on 15-Jul-2015.
@@ -13,7 +12,7 @@ import java.util.UUID;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "clients")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Client implements User<Long>, Model {
+public class Client implements UserInterface<Long>, Model {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     protected Long id;

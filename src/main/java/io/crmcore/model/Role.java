@@ -13,6 +13,11 @@ import java.util.Date;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "roles")
 public class Role implements GrantedAuthority, Model {
+    public static class Props {
+        public static final String name = "name";
+        public static final String active = "active";
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

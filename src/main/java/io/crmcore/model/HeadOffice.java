@@ -12,7 +12,7 @@ import java.util.Set;
 @Entity
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "head_office")
-public class HeadOffice extends Employee implements ConcreteUser<Long> {
+public class HeadOffice extends Employee implements ConcreteUserInterface<Long> {
 
     @ManyToMany(fetch = FetchType.EAGER)
     protected Set<Role> roles;

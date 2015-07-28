@@ -5,13 +5,14 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
-import java.util.UUID;
 
 @Entity
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "consumers")
-public class Consumer implements ConcreteUser<Long>, Model {
-    //User basics
+public class Consumer implements ConcreteUserInterface<Long>, Model {
+    public static class Props {
+    }
+    //UserInterface basics
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     protected Long id;
@@ -31,7 +32,7 @@ public class Consumer implements ConcreteUser<Long>, Model {
     @JoinColumn(nullable = true)
     protected Address address;
 
-    //Concrete User
+    //Concrete UserInterface
     @ManyToMany(fetch = FetchType.EAGER)
     protected Set<Role> roles;
 

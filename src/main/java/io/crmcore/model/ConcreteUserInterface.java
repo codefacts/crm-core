@@ -6,7 +6,7 @@ import java.util.Set;
 /**
  * Created by someone on 15-Jul-2015.
  */
-public interface ConcreteUser<T> extends User<T> {
+public interface ConcreteUserInterface<T> extends UserInterface<T> {
 
     public Set<Role> getRoles();
 

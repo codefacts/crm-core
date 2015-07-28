@@ -9,6 +9,10 @@ import java.util.UUID;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "user_basics")
 public class UserBasic implements Model {
+    public static class Props {
+
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

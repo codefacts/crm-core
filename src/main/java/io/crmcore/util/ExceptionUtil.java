@@ -1,7 +1,11 @@
 package io.crmcore.util;
 
 import io.crmcore.intfs.*;
+import io.netty.handler.codec.http.HttpResponseStatus;
+import io.vertx.core.AsyncResult;
+import io.vertx.core.AsyncResultHandler;
 import io.vertx.core.eventbus.Message;
+import io.vertx.core.json.JsonObject;
 import org.springframework.http.HttpStatus;
 
 /**
@@ -45,5 +49,43 @@ public class ExceptionUtil {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static void fail(Message message, Throwable throwable) {
+        message.fail(HttpResponseStatus.INTERNAL_SERVER_ERROR.code(), throwable.getMessage());
+    }
+
+    public static void sallowCall(Callable<JsonObject> callable, AsyncResultHandler<JsonObject> asyncResultHandler) {
+        try {
+            JsonObject jsonObject = callable.call();
+            asyncResultHandler.handle(asyncResult(jsonObject, null, true));
+        } catch (Exception ex) {
+            asyncResultHandler.handle(asyncResult(null, ex, false));
+        }
+    }
+
+    private static AsyncResult asyncResult(JsonObject ret, Throwable e, boolean success) {
+        AsyncResult<JsonObject> result = new AsyncResult<JsonObject>() {
+            @Override
+            public JsonObject result() {
+                return ret;
+            }
+
+            @Override
+            public Throwable cause() {
+                return e;
+            }
+
+            @Override
+            public boolean succeeded() {
+                return success;
+            }
+
+            @Override
+            public boolean failed() {
+                return !success;
+            }
+        };
+        return result;
     }
 }

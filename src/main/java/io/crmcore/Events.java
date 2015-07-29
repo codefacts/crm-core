@@ -18,4 +18,6 @@ final public class Events {
     public static final String NEW_BR_CREATED = "NEW_BR_CREATED";
     public static final String NEW_BR_SUPERVISOR_CREATED = "NEW_BR_SUPERVISOR_CREATED";
     public static final String NEW_AREA_COORDINATOR_CREATED = "NEW_AREA_COORDINATOR_CREATED";
+
+    public String NEW_DISTRIBUTION_HOUSE_CREATED = "NEW_DISTRIBUTION_HOUSE_CREATED";
 }

@@ -1,8 +1,11 @@
 package io.crmcore.service;
 
+import io.crmcore.App;
+import io.crmcore.MongoCollections;
 import io.crmcore.model.Brand;
-import io.crmcore.repository.BrandRepository;
+import io.crmcore.util.ExceptionUtil;
 import io.vertx.core.eventbus.Message;
+import io.vertx.core.json.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -11,11 +14,15 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class BrandService {
-    @Autowired
-    private BrandRepository repository;
 
     public void findAll(Message message) {
-        Iterable<Brand> brands = repository.findAll();
-        message.reply(brands);
+        App.mongoClient.find(MongoCollections.brand, new JsonObject(), r -> {
+            if (r.failed()) {
+                ExceptionUtil.fail(message, r.cause());
+                return;
+            }
+
+            message.reply(r.result());
+        });
     }
 }

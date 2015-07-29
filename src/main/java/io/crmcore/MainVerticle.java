@@ -5,9 +5,14 @@ import io.crmcore.model.*;
 import io.crmcore.service.*;
 import io.vertx.core.*;
 import io.vertx.core.eventbus.EventBus;
+import io.vertx.core.json.JsonObject;
+import io.vertx.ext.mongo.MongoClient;
+import org.apache.commons.io.IOUtils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 /**
@@ -22,7 +27,7 @@ public class MainVerticle extends AbstractVerticle {
         App.bus = getVertx().eventBus();
 
         getVertx().executeBlocking((Future<ConfigurableApplicationContext> e) -> {
-
+            App.mongoClient = MongoClient.createShared(getVertx(), new JsonObject(loadConfig()));
             final ConfigurableApplicationContext context = SpringApplication.run(App.class);
             e.complete(context);
 
@@ -44,27 +49,19 @@ public class MainVerticle extends AbstractVerticle {
         System.out.println("--------------Verticle complete");
     }
 
+    private String loadConfig() {
+        InputStream stream = this.getClass().getResourceAsStream("/mongo-config.json");
+        try {
+            String string = IOUtils.toString(stream, "UTF-8");
+            return string;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "{}";
+    }
+
     private void registerCodecs(ConfigurableApplicationContext ctx) {
-        final EventBus bus = getVertx().eventBus();
-        bus.registerDefaultCodec(Address.class, ctx.getBean(AddressCodec.class));
-        bus.registerDefaultCodec(Admin.class, ctx.getBean(AdminCodec.class));
-        bus.registerDefaultCodec(Area.class, ctx.getBean(AreaCodec.class));
-        bus.registerDefaultCodec(AreaCoordinator.class, ctx.getBean(AreaCoordinatorCodec.class));
-        bus.registerDefaultCodec(Brand.class, ctx.getBean(BrandCodec.class));
-        bus.registerDefaultCodec(Br.class, ctx.getBean(BrCodec.class));
-        bus.registerDefaultCodec(BrSupervisor.class, ctx.getBean(BrSupervisorCodec.class));
-        bus.registerDefaultCodec(Client.class, ctx.getBean(ClientCodec.class));
-        bus.registerDefaultCodec(Consumer.class, ctx.getBean(ConsumerCodec.class));
-        bus.registerDefaultCodec(DistributionHouse.class, ctx.getBean(DistributionHouseCodec.class));
-        bus.registerDefaultCodec(Employee.class, ctx.getBean(EmployeeCodec.class));
-        bus.registerDefaultCodec(HeadOffice.class, ctx.getBean(HeadOfficeCodec.class));
-        bus.registerDefaultCodec(Region.class, ctx.getBean(RegionCodec.class));
-        bus.registerDefaultCodec(Role.class, ctx.getBean(RoleCodec.class));
-        bus.registerDefaultCodec(Town.class, ctx.getBean(TownCodec.class));
-        bus.registerDefaultCodec(UserBasic.class, ctx.getBean(UserBasicCodec.class));
-        bus.registerDefaultCodec(UserInterface.class, ctx.getBean(UserCodec.class));
-        bus.registerDefaultCodec(UserIndex.class, ctx.getBean(UserIndexCodec.class));
-        bus.registerDefaultCodec(ArrayList.class, ctx.getBean(ArrayListToJsonArrayCodec.class));
+        App.bus.registerDefaultCodec(ArrayList.class, ctx.getBean(ArrayListToJsonArrayCodec.class));
     }
 
     private void registerEvents(ConfigurableApplicationContext ctx) {

@@ -4,10 +4,6 @@ import io.crmcore.App;
 import io.crmcore.Events;
 import io.crmcore.Strings;
 import io.crmcore.model.*;
-import io.crmcore.repository.AdminRepository;
-import io.crmcore.repository.HeadOfficeRepository;
-import io.crmcore.repository.UserBasicRepository;
-import io.crmcore.repository.UserIndexRepository;
 import io.crmcore.util.ExceptionUtil;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonObject;
@@ -23,41 +19,25 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 @Component
 public class HeadOfficeService {
-    public static final String id_prifix = "ad-";
+    public static final String id_prefix = "hd-";
 
     private final AtomicLong atomicLong = new AtomicLong(0L);
     @Autowired
-    private HeadOfficeRepository repository;
-    @Autowired
-    private EmployeeService employeeService;
-    @Autowired
-    private UserBasicService userBasicService;
-    @Autowired
-    private UserIndexService userIndexService;
+    private UserService userService;
 
     public void create(Message<JsonObject> message) {
-        ExceptionUtil.withReplyRun(() -> {
-            final JsonObject json = message.body();
-            final HeadOffice headOffice = new HeadOffice();
-            employeeService.fill(headOffice, json);
+        final JsonObject head = message.body();
+        userService.create(head, message, newUserId(), UserType.employee, r -> {
+            if (r.failed()) {
+                ExceptionUtil.fail(message, r.cause());
+                return;
+            }
+            message.reply(null);
+            App.bus.publish(Events.NEW_HEAD_OFFICE_CREATED, head);
+        });
+    }
 
-            headOffice.setCreatedBy(json.getString(Strings.createdBy, Strings.__self));
-            headOffice.setModifiedBy(json.getString(Strings.modifiedBy, Strings.__self));
-            Date date = new Date();
-            headOffice.setCreateDate(date);
-            headOffice.setModifyDate(date);
-
-            final UserBasic basic = userBasicService.save(json.getString(Strings.username), json.getString(Strings.password));
-
-            repository.save(headOffice);
-
-            final UserIndex userIndex = userIndexService.save(headOffice.getId(), UserType.admin, String.format(id_prifix + "%04d", atomicLong.incrementAndGet()));
-
-            basic.setUserIndex(userIndex);
-            userBasicService.update(basic);
-
-            App.bus.publish(Events.NEW_HEAD_OFFICE_CREATED, headOffice);
-
-        }, message);
+    public String newUserId() {
+        return String.format(id_prefix + "%04d", atomicLong.incrementAndGet());
     }
 }

@@ -11,9 +11,4 @@ import org.springframework.stereotype.Component;
 @Component
 public class EmployeeService {
 
-    public void fill(Employee admin, JsonObject json) {
-        admin.setFirstName(json.getString("firstName"));
-        admin.setLastName(json.getString("lastName"));
-        admin.setPhone(json.getString("phone"));
-    }
 }

@@ -4,7 +4,6 @@ import io.crmcore.App;
 import io.crmcore.Events;
 import io.crmcore.Strings;
 import io.crmcore.model.*;
-import io.crmcore.repository.*;
 import io.crmcore.util.ExceptionUtil;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonObject;
@@ -24,49 +23,22 @@ public class BrSupervisorService {
 
     private final AtomicLong atomicLong = new AtomicLong(0L);
     @Autowired
-    private BrSupervisorRepository repository;
-    @Autowired
-    private UserBasicRepository userBasicRepository;
-    @Autowired
-    private UserIndexRepository userIndexRepository;
-    @Autowired
-    private DistributionHouseRepository distributionHouseRepository;
-    @Autowired
-    private EmployeeService employeeService;
+    private UserService userService;
 
     public void create(Message<JsonObject> message) {
-        ExceptionUtil.withReplyRun(() -> {
-            final JsonObject json = message.body();
-            final BrSupervisor brSupervisor = new BrSupervisor();
-            employeeService.fill(brSupervisor, json);
+        final JsonObject supervisor = message.body();
 
-            brSupervisor.setCreatedBy(json.getString(Strings.createdBy, Strings.__self));
-            brSupervisor.setModifiedBy(json.getString(Strings.modifiedBy, Strings.__self));
-            Date date = new Date();
-            brSupervisor.setCreateDate(date);
-            brSupervisor.setModifyDate(date);
+        userService.create(supervisor, message, newUserId(), UserType.employee, r -> {
+            if (r.failed()) {
+                ExceptionUtil.fail(message, r.cause());
+                return;
+            }
+            message.reply(null);
+            App.bus.publish(Events.NEW_BR_SUPERVISOR_CREATED, supervisor);
+        });
+    }
 
-            //Br specific
-            brSupervisor.setDistributionHouse(distributionHouseRepository.findOne(json.getLong("distributionHouse")));
-
-            //UserInterface basic
-            UserBasic basic = new UserBasic();
-            basic.setUsername(json.getString(Strings.username));
-            basic.setPassword(json.getString(Strings.password));
-            userBasicRepository.save(basic);
-
-            repository.save(brSupervisor);
-
-            UserIndex userIndex = new UserIndex();
-            userIndex.setActualId(brSupervisor.getId());
-            userIndex.setUserType(UserType.admin);
-            userIndex.setUserId(String.format(id_prefix + "%04d", atomicLong.incrementAndGet()));
-            userIndexRepository.save(userIndex);
-
-            basic.setUserIndex(userIndex);
-            userBasicRepository.save(basic);
-
-            App.bus.publish(Events.NEW_BR_SUPERVISOR_CREATED, brSupervisor);
-        }, message);
+    public String newUserId() {
+        return String.format(id_prefix + "%04d", atomicLong.incrementAndGet());
     }
 }

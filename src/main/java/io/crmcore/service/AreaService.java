@@ -7,4 +7,5 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class AreaService {
+    public static final String mongo_collection = "areas";
 }

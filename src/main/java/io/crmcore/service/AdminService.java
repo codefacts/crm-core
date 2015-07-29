@@ -2,13 +2,13 @@ package io.crmcore.service;
 
 import io.crmcore.App;
 import io.crmcore.Events;
+import io.crmcore.MongoCollections;
 import io.crmcore.Strings;
-import io.crmcore.model.Admin;
-import io.crmcore.model.UserBasic;
-import io.crmcore.model.UserIndex;
-import io.crmcore.model.UserType;
-import io.crmcore.repository.AdminRepository;
+import io.crmcore.model.*;
 import io.crmcore.util.ExceptionUtil;
+import io.netty.handler.codec.http.HttpResponseStatus;
+import io.vertx.core.AsyncResult;
+import io.vertx.core.AsyncResultHandler;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,38 +25,24 @@ public class AdminService {
     public static final String id_prifix = "ad-";
     private final AtomicLong atomicLong = new AtomicLong(0L);
     @Autowired
-    private AdminRepository repository;
-    @Autowired
-    private UserBasicService userBasicService;
-    @Autowired
-    private UserIndexService userIndexService;
-    @Autowired
-    private EmployeeService employeeService;
+    private UserService userService;
 
     public void create(Message<JsonObject> message) {
 
-        ExceptionUtil.withReplyRun(() -> {
-            final JsonObject json = message.body();
-            final Admin admin = new Admin();
-            employeeService.fill(admin, json);
+        final JsonObject admin = message.body();
 
-            admin.setCreatedBy(json.getString(Strings.createdBy, Strings.__self));
-            admin.setModifiedBy(json.getString(Strings.modifiedBy, Strings.__self));
-            Date date = new Date();
-            admin.setCreateDate(date);
-            admin.setModifyDate(date);
-
-            UserBasic basic = userBasicService.save(json.getString(Strings.username), json.getString(Strings.password));
-
-            repository.save(admin);
-
-            final UserIndex userIndex = userIndexService.save(admin.getId(), UserType.admin, String.format(id_prifix + "%04d", atomicLong.incrementAndGet()));
-
-            basic.setUserIndex(userIndex);
-            userBasicService.update(basic);
-
+        userService.create(admin, message, newUserId(), UserType.employee, r1 -> {
+            if (r1.succeeded()) {
+                ExceptionUtil.fail(message, r1.cause());
+                return;
+            }
+            message.reply(null);
             App.bus.publish(Events.NEW_ADMIN_CREATED, admin);
+        });
 
-        }, message);
+    }
+
+    public String newUserId() {
+        return String.format(id_prifix + "%04d", atomicLong.incrementAndGet());
     }
 }

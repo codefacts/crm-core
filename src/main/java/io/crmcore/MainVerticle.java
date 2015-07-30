@@ -76,4 +76,12 @@ public class MainVerticle extends AbstractVerticle {
         bus.consumer(Events.FIND_ALL_DISTRIBUTION_HOUSES, ctx.getBean(DistributionHouseService.class)::findAll);
         bus.consumer(Events.FIND_ALL_BRANDS, ctx.getBean(BrandService.class)::findAll);
     }
+
+    @Override
+    public void stop() throws Exception {
+        if (App.mongoClient != null) {
+            App.mongoClient.close();
+            App.mongoClient = null;
+        }
+    }
 }

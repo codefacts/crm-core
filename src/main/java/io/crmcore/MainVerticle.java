@@ -17,8 +17,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 /**
  * Created by someone on 08-Jul-2015.
@@ -157,6 +155,8 @@ public class MainVerticle extends AbstractVerticle {
         bus.consumer(Events.FIND_ALL_TOWNS, ctx.getBean(TownService.class)::findAll);
         bus.consumer(Events.FIND_ALL_DISTRIBUTION_HOUSES, ctx.getBean(DistributionHouseService.class)::findAll);
         bus.consumer(Events.FIND_ALL_BRANDS, ctx.getBean(BrandService.class)::findAll);
+
+        bus.consumer(Events.GET_DB_TREE, ctx.getBean(DbService.class)::treeWithSummary);
     }
 
     private String loadConfig() {

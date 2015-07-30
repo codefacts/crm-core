@@ -1,7 +1,6 @@
 package io.crmcore.service;
 
 import io.crmcore.App;
-import io.crmcore.Events;
 import io.crmcore.MongoCollections;
 import io.crmcore.exceptions.ValidationException;
 import io.crmcore.model.Model;

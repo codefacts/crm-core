@@ -20,6 +20,8 @@ public class App {
     public static EventBus bus;
     public static Vertx vertx;
     public static MongoClient mongoClient;
+    public static JsonObject mongoConfig;
+    public static final int collection_count = 15;
 
     @Autowired
     Environment env;

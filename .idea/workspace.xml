@@ -2,59 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="114f473e-272f-438f-a0d1-15e5e74eae4f" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
+      <change type="DELETED" beforePath="D:\IdeaProjects\crm-core\src\main\java\io\crm\core\service\DbService.java" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/io/crm/core/MainVerticle.java" afterPath="$PROJECT_DIR$/src/main/java/io/crm/core/MainVerticle.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MOVED" beforePath="D:\IdeaProjects\crm-core\src\main\java\io\crmcore\App.java" afterPath="$PROJECT_DIR$/src/main/java/io/crm/core/App.java" />
-      <change type="MOVED" beforePath="D:\IdeaProjects\crm-core\src\main\java\io\crmcore\Events.java" afterPath="$PROJECT_DIR$/src/main/java/io/crm/core/Events.java" />
-      <change type="MOVED" beforePath="D:\IdeaProjects\crm-core\src\main\java\io\crmcore\MainVerticle.java" afterPath="$PROJECT_DIR$/src/main/java/io/crm/core/MainVerticle.java" />
-      <change type="MOVED" beforePath="D:\IdeaProjects\crm-core\src\main\java\io\crmcore\MongoCollections.java" afterPath="$PROJECT_DIR$/src/main/java/io/crm/core/MongoCollections.java" />
-      <change type="MOVED" beforePath="D:\IdeaProjects\crm-core\src\main\java\io\crmcore\Strings.java" afterPath="$PROJECT_DIR$/src/main/java/io/crm/core/Strings.java" />
-      <change type="MOVED" beforePath="D:\IdeaProjects\crm-core\src\main\java\io\crmcore\codec\ArrayListToJsonArrayCodec.java" afterPath="$PROJECT_DIR$/src/main/java/io/crm/core/codec/ArrayListToJsonArrayCodec.java" />
-      <change type="MOVED" beforePath="D:\IdeaProjects\crm-core\src\main\java\io\crmcore\exceptions\ValidationException.java" afterPath="$PROJECT_DIR$/src/main/java/io/crm/core/exceptions/ValidationException.java" />
-      <change type="MOVED" beforePath="D:\IdeaProjects\crm-core\src\main\java\io\crmcore\intfs\Callable.java" afterPath="$PROJECT_DIR$/src/main/java/io/crm/core/intfs/Callable.java" />
-      <change type="MOVED" beforePath="D:\IdeaProjects\crm-core\src\main\java\io\crmcore\intfs\Runnable.java" afterPath="$PROJECT_DIR$/src/main/java/io/crm/core/intfs/Runnable.java" />
-      <change type="MOVED" beforePath="D:\IdeaProjects\crm-core\src\main\java\io\crmcore\model\Address.java" afterPath="$PROJECT_DIR$/src/main/java/io/crm/core/model/Address.java" />
-      <change type="MOVED" beforePath="D:\IdeaProjects\crm-core\src\main\java\io\crmcore\model\Admin.java" afterPath="$PROJECT_DIR$/src/main/java/io/crm/core/model/Admin.java" />
-      <change type="MOVED" beforePath="D:\IdeaProjects\crm-core\src\main\java\io\crmcore\model\Area.java" afterPath="$PROJECT_DIR$/src/main/java/io/crm/core/model/Area.java" />
-      <change type="MOVED" beforePath="D:\IdeaProjects\crm-core\src\main\java\io\crmcore\model\AreaCoordinator.java" afterPath="$PROJECT_DIR$/src/main/java/io/crm/core/model/AreaCoordinator.java" />
-      <change type="MOVED" beforePath="D:\IdeaProjects\crm-core\src\main\java\io\crmcore\model\Br.java" afterPath="$PROJECT_DIR$/src/main/java/io/crm/core/model/Br.java" />
-      <change type="MOVED" beforePath="D:\IdeaProjects\crm-core\src\main\java\io\crmcore\model\BrSupervisor.java" afterPath="$PROJECT_DIR$/src/main/java/io/crm/core/model/BrSupervisor.java" />
-      <change type="MOVED" beforePath="D:\IdeaProjects\crm-core\src\main\java\io\crmcore\model\Brand.java" afterPath="$PROJECT_DIR$/src/main/java/io/crm/core/model/Brand.java" />
-      <change type="MOVED" beforePath="D:\IdeaProjects\crm-core\src\main\java\io\crmcore\model\Client.java" afterPath="$PROJECT_DIR$/src/main/java/io/crm/core/model/Client.java" />
-      <change type="MOVED" beforePath="D:\IdeaProjects\crm-core\src\main\java\io\crmcore\model\Consumer.java" afterPath="$PROJECT_DIR$/src/main/java/io/crm/core/model/Consumer.java" />
-      <change type="MOVED" beforePath="D:\IdeaProjects\crm-core\src\main\java\io\crmcore\model\ConsumerContact.java" afterPath="$PROJECT_DIR$/src/main/java/io/crm/core/model/ConsumerContact.java" />
-      <change type="MOVED" beforePath="D:\IdeaProjects\crm-core\src\main\java\io\crmcore\model\ConsumerType.java" afterPath="$PROJECT_DIR$/src/main/java/io/crm/core/model/ConsumerType.java" />
-      <change type="MOVED" beforePath="D:\IdeaProjects\crm-core\src\main\java\io\crmcore\model\DistributionHouse.java" afterPath="$PROJECT_DIR$/src/main/java/io/crm/core/model/DistributionHouse.java" />
-      <change type="MOVED" beforePath="D:\IdeaProjects\crm-core\src\main\java\io\crmcore\model\Employee.java" afterPath="$PROJECT_DIR$/src/main/java/io/crm/core/model/Employee.java" />
-      <change type="MOVED" beforePath="D:\IdeaProjects\crm-core\src\main\java\io\crmcore\model\EmployeeType.java" afterPath="$PROJECT_DIR$/src/main/java/io/crm/core/model/EmployeeType.java" />
-      <change type="MOVED" beforePath="D:\IdeaProjects\crm-core\src\main\java\io\crmcore\model\HeadOffice.java" afterPath="$PROJECT_DIR$/src/main/java/io/crm/core/model/HeadOffice.java" />
-      <change type="MOVED" beforePath="D:\IdeaProjects\crm-core\src\main\java\io\crmcore\model\Identifiable.java" afterPath="$PROJECT_DIR$/src/main/java/io/crm/core/model/Identifiable.java" />
-      <change type="MOVED" beforePath="D:\IdeaProjects\crm-core\src\main\java\io\crmcore\model\Model.java" afterPath="$PROJECT_DIR$/src/main/java/io/crm/core/model/Model.java" />
-      <change type="MOVED" beforePath="D:\IdeaProjects\crm-core\src\main\java\io\crmcore\model\Region.java" afterPath="$PROJECT_DIR$/src/main/java/io/crm/core/model/Region.java" />
-      <change type="MOVED" beforePath="D:\IdeaProjects\crm-core\src\main\java\io\crmcore\model\Role.java" afterPath="$PROJECT_DIR$/src/main/java/io/crm/core/model/Role.java" />
-      <change type="MOVED" beforePath="D:\IdeaProjects\crm-core\src\main\java\io\crmcore\model\Town.java" afterPath="$PROJECT_DIR$/src/main/java/io/crm/core/model/Town.java" />
-      <change type="MOVED" beforePath="D:\IdeaProjects\crm-core\src\main\java\io\crmcore\model\User.java" afterPath="$PROJECT_DIR$/src/main/java/io/crm/core/model/User.java" />
-      <change type="MOVED" beforePath="D:\IdeaProjects\crm-core\src\main\java\io\crmcore\model\UserIndex.java" afterPath="$PROJECT_DIR$/src/main/java/io/crm/core/model/UserIndex.java" />
-      <change type="MOVED" beforePath="D:\IdeaProjects\crm-core\src\main\java\io\crmcore\model\UserType.java" afterPath="$PROJECT_DIR$/src/main/java/io/crm/core/model/UserType.java" />
-      <change type="MOVED" beforePath="D:\IdeaProjects\crm-core\src\main\java\io\crmcore\service\AdminService.java" afterPath="$PROJECT_DIR$/src/main/java/io/crm/core/service/AdminService.java" />
-      <change type="MOVED" beforePath="D:\IdeaProjects\crm-core\src\main\java\io\crmcore\service\AreaCoordinatorService.java" afterPath="$PROJECT_DIR$/src/main/java/io/crm/core/service/AreaCoordinatorService.java" />
-      <change type="MOVED" beforePath="D:\IdeaProjects\crm-core\src\main\java\io\crmcore\service\AreaService.java" afterPath="$PROJECT_DIR$/src/main/java/io/crm/core/service/AreaService.java" />
-      <change type="MOVED" beforePath="D:\IdeaProjects\crm-core\src\main\java\io\crmcore\service\BrService.java" afterPath="$PROJECT_DIR$/src/main/java/io/crm/core/service/BrService.java" />
-      <change type="MOVED" beforePath="D:\IdeaProjects\crm-core\src\main\java\io\crmcore\service\BrSupervisorService.java" afterPath="$PROJECT_DIR$/src/main/java/io/crm/core/service/BrSupervisorService.java" />
-      <change type="MOVED" beforePath="D:\IdeaProjects\crm-core\src\main\java\io\crmcore\service\BrandService.java" afterPath="$PROJECT_DIR$/src/main/java/io/crm/core/service/BrandService.java" />
-      <change type="MOVED" beforePath="D:\IdeaProjects\crm-core\src\main\java\io\crmcore\service\ClientService.java" afterPath="$PROJECT_DIR$/src/main/java/io/crm/core/service/ClientService.java" />
-      <change type="MOVED" beforePath="D:\IdeaProjects\crm-core\src\main\java\io\crmcore\service\ConsumerContactService.java" afterPath="$PROJECT_DIR$/src/main/java/io/crm/core/service/ConsumerContactService.java" />
-      <change type="MOVED" beforePath="D:\IdeaProjects\crm-core\src\main\java\io\crmcore\service\ConsumerService.java" afterPath="$PROJECT_DIR$/src/main/java/io/crm/core/service/ConsumerService.java" />
-      <change type="MOVED" beforePath="D:\IdeaProjects\crm-core\src\main\java\io\crmcore\service\DbService.java" afterPath="$PROJECT_DIR$/src/main/java/io/crm/core/service/DbService.java" />
-      <change type="MOVED" beforePath="D:\IdeaProjects\crm-core\src\main\java\io\crmcore\service\DistributionHouseService.java" afterPath="$PROJECT_DIR$/src/main/java/io/crm/core/service/DistributionHouseService.java" />
-      <change type="MOVED" beforePath="D:\IdeaProjects\crm-core\src\main\java\io\crmcore\service\EmployeeService.java" afterPath="$PROJECT_DIR$/src/main/java/io/crm/core/service/EmployeeService.java" />
-      <change type="MOVED" beforePath="D:\IdeaProjects\crm-core\src\main\java\io\crmcore\service\HeadOfficeService.java" afterPath="$PROJECT_DIR$/src/main/java/io/crm/core/service/HeadOfficeService.java" />
-      <change type="MOVED" beforePath="D:\IdeaProjects\crm-core\src\main\java\io\crmcore\service\RegionService.java" afterPath="$PROJECT_DIR$/src/main/java/io/crm/core/service/RegionService.java" />
-      <change type="MOVED" beforePath="D:\IdeaProjects\crm-core\src\main\java\io\crmcore\service\TownService.java" afterPath="$PROJECT_DIR$/src/main/java/io/crm/core/service/TownService.java" />
-      <change type="MOVED" beforePath="D:\IdeaProjects\crm-core\src\main\java\io\crmcore\service\UserIndexService.java" afterPath="$PROJECT_DIR$/src/main/java/io/crm/core/service/UserIndexService.java" />
-      <change type="MOVED" beforePath="D:\IdeaProjects\crm-core\src\main\java\io\crmcore\service\UserService.java" afterPath="$PROJECT_DIR$/src/main/java/io/crm/core/service/UserService.java" />
-      <change type="MOVED" beforePath="D:\IdeaProjects\crm-core\src\main\java\io\crmcore\util\AsyncUtil.java" afterPath="$PROJECT_DIR$/src/main/java/io/crm/core/util/AsyncUtil.java" />
-      <change type="MOVED" beforePath="D:\IdeaProjects\crm-core\src\main\java\io\crmcore\util\ExceptionUtil.java" afterPath="$PROJECT_DIR$/src/main/java/io/crm/core/util/ExceptionUtil.java" />
     </list>
     <ignored path="crm-core.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -76,7 +26,18 @@
     <favorites_list name="crm-core" />
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <leaf>
+      <file leaf-file-name="MainVerticle.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/io/crm/core/MainVerticle.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.42114696">
+              <caret line="156" column="87" selection-start-line="156" selection-start-column="87" selection-end-line="156" selection-end-column="87" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -103,7 +64,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/io/crmcore/repository/AdminRepository.java" />
         <option value="$PROJECT_DIR$/src/main/java/io/crmcore/service/UserBasicService.java" />
         <option value="$PROJECT_DIR$/src/main/java/io/crmcore/service/EmployeeService.java" />
         <option value="$PROJECT_DIR$/src/main/java/io/crmcore/model/Address.java" />
@@ -154,6 +114,7 @@
         <option value="$PROJECT_DIR$/src/main/java/io/crmcore/MainVerticle.java" />
         <option value="$PROJECT_DIR$/src/main/java/io/crmcore/service/DbService.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/io/crm/core/MainVerticle.java" />
       </list>
     </option>
   </component>
@@ -340,6 +301,36 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="crm-core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="crm-core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="service" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -637,7 +628,13 @@
       <option name="project" value="LOCAL" />
       <updated>1438267564863</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Seperate module for query">
+      <created>1438305822074</created>
+      <option name="number" value="00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1438305822074</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TodoView">
@@ -651,10 +648,11 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1378" height="744" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.329806" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.319224" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -662,19 +660,18 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32879046" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.28528073" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.28528073" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3993174" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24961832" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.319224" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6507937" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4003407" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.59611994" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -696,7 +693,8 @@
     <MESSAGE value="Main" />
     <MESSAGE value="Automatic DB initialize" />
     <MESSAGE value="Building treeWithSummary" />
-    <option name="LAST_COMMIT_MESSAGE" value="Building treeWithSummary" />
+    <MESSAGE value="Seperate module for query" />
+    <option name="LAST_COMMIT_MESSAGE" value="Seperate module for query" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1042,18 +1040,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/io/crm/core/MainVerticle.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8172043">
-          <caret line="186" column="0" selection-start-line="186" selection-start-column="0" selection-end-line="186" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.3046595">
           <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="184" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/io/crm/core/MainVerticle.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.42114696">
+          <caret line="156" column="87" selection-start-line="156" selection-start-column="87" selection-end-line="156" selection-end-column="87" />
           <folding />
         </state>
       </provider>

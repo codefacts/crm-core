@@ -8,5 +8,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class BrSupervisor extends Employee implements Model {
     public static final String distributionHouse = "distributionHouse";
+    public static final String campaign = "campaign";
     BrSupervisor() {}
 }

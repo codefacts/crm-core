@@ -8,6 +8,9 @@ import java.io.Serializable;
 public class DistributionHouse implements Serializable, Model {
     public static final String name = "name";
     public static final String area = "area";
+    public static final String locations = "location";
     public static final String active = "active";
-    DistributionHouse() {}
+
+    DistributionHouse() {
+    }
 }

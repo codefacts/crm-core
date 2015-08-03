@@ -1,12 +1,14 @@
 package io.crm.core;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mongodb.client.MongoDatabase;
 import io.vertx.core.*;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.mongo.MongoClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
@@ -21,6 +23,9 @@ public class App {
     public static MongoClient mongoClient;
     public static JsonObject mongoConfig;
     public static final int collection_count = 15;
+    public static ConfigurableApplicationContext context;
+    public static com.mongodb.MongoClient mongoClientNative;
+    public static MongoDatabase db;
 
     @Autowired
     Environment env;
@@ -61,5 +66,14 @@ public class App {
                 }
             }
         });
+    }
+
+    public static void testInitVertx() {
+        App.vertx = Vertx.vertx();
+        App.bus = vertx.eventBus();
+    }
+
+    public static void testCloseVertx() {
+        App.vertx.close();
     }
 }

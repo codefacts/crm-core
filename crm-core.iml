@@ -25,6 +25,8 @@
     <orderEntry type="library" name="Maven: org.freemarker:freemarker:2.3.22" level="project" />
     <orderEntry type="library" name="Maven: io.vertx:vertx-mongo-client:3.0.0" level="project" />
     <orderEntry type="library" name="Maven: org.mongodb:mongodb-driver-async:3.0.2" level="project" />
+    <orderEntry type="library" name="Maven: org.mongodb:bson:3.0.2" level="project" />
+    <orderEntry type="library" name="Maven: org.mongodb:mongodb-driver-core:3.0.2" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-web:1.2.5.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter:1.2.5.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot:1.2.5.RELEASE" level="project" />
@@ -66,9 +68,6 @@
     <orderEntry type="library" name="Maven: org.apache.geronimo.specs:geronimo-jta_1.0.1B_spec:1.0.1" level="project" />
     <orderEntry type="library" name="Maven: commons-pool:commons-pool:1.6" level="project" />
     <orderEntry type="library" name="Maven: org.apache.commons:commons-io:1.3.2" level="project" />
-    <orderEntry type="library" name="Maven: org.mongodb:mongodb-driver:3.0.2" level="project" />
-    <orderEntry type="library" name="Maven: org.mongodb:bson:3.0.2" level="project" />
-    <orderEntry type="library" name="Maven: org.mongodb:mongodb-driver-core:3.0.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.12" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.hamcrest:hamcrest-core:1.3" level="project" />
   </component>

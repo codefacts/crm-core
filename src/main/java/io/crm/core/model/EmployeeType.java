@@ -1,5 +1,7 @@
 package io.crm.core.model;
 
+import java.util.HashMap;
+
 /**
  * Created by someone on 29-Jul-2015.
  */

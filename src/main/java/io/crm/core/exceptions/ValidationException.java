@@ -3,7 +3,7 @@ package io.crm.core.exceptions;
 /**
  * Created by sohan on 7/29/2015.
  */
-public class ValidationException extends Exception {
+public class ValidationException extends RuntimeException {
     public ValidationException() {
     }
 

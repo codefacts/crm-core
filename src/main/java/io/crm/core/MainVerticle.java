@@ -1,7 +1,7 @@
 package io.crm.core;
 
 import io.crm.core.codec.ArrayListToJsonArrayCodec;
-import io.crm.core.service.DbService;
+import io.crm.core.service.ImportService;
 import io.crm.core.service.*;
 import io.crm.core.util.AsyncUtil;
 import io.vertx.core.*;
@@ -58,10 +58,6 @@ public class MainVerticle extends AbstractVerticle {
         App.mongoClient = MongoClient.createShared(getVertx(), config);
         App.mongoConfig = config;
 
-        App.mongoClientNative = new com.mongodb.MongoClient();
-
-        App.db = App.mongoClientNative.getDatabase(config.getString("db_names"));
-
         createCollections(handler);
     }
 
@@ -82,25 +78,21 @@ public class MainVerticle extends AbstractVerticle {
                 map.put(array.getJsonObject(i).getString("name"), null);
             }
 
-            createCollection(MC.address, handler, map);
-            createCollection(MC.admin, handler, map);
-            createCollection(MC.area, handler, map);
-            createCollection(MC.area_coordinator, handler, map);
+            createCollection(mc.address, handler, map);
+            createCollection(mc.area, handler, map);
 
-            createCollection(MC.br, handler, map);
-            createCollection(MC.brand, handler, map);
+            createCollection(mc.brand, handler, map);
 
-            createCollection(MC.client, handler, map);
-            createCollection(MC.consumer, handler, map);
-            createCollection(MC.consumer_contact, handler, map);
-            createCollection(MC.distribution_house, handler, map);
+            createCollection(mc.client, handler, map);
+            createCollection(mc.consumer, handler, map);
+            createCollection(mc.consumer_contact, handler, map);
+            createCollection(mc.distribution_house, handler, map);
 
-            createCollection(MC.head_office, handler, map);
-            createCollection(MC.employee, handler, map);
+            createCollection(mc.employee, handler, map);
 
-            createCollection(MC.region, handler, map);
-            createCollection(MC.location, handler, map);
-            createCollection(MC.user_index, handler, map);
+            createCollection(mc.region, handler, map);
+            createCollection(mc.location, handler, map);
+            createCollection(mc.user_index, handler, map);
         });
     }
 
@@ -178,7 +170,8 @@ public class MainVerticle extends AbstractVerticle {
         startFuture.complete();
         startFuture = null;
         System.out.println("<-------------------COMPLETE-------------------->");
-        App.context.getBean(DbService.class).createDb();
+
+        App.context.getBean(ImportService.class).importDb();
     }
 
     @Override
@@ -186,10 +179,6 @@ public class MainVerticle extends AbstractVerticle {
         if (App.mongoClient != null) {
             App.mongoClient.close();
             App.mongoClient = null;
-        }
-        if (App.mongoClientNative != null) {
-            App.mongoClientNative.close();
-            App.mongoClientNative = null;
         }
     }
 }

@@ -1,7 +1,7 @@
 package io.crm.core.service;
 
 import io.crm.core.App;
-import io.crm.core.MC;
+import io.crm.core.mc;
 import io.crm.core.util.ExceptionUtil;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonObject;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 public class TownService {
 
     public void findAll(Message message) {
-        App.mongoClient.find(MC.location, new JsonObject(), r -> {
+        App.mongoClient.find(mc.location, new JsonObject(), r -> {
             if (r.failed()) {
                 ExceptionUtil.fail(message, r.cause());
                 return;

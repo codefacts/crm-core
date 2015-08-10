@@ -13,6 +13,15 @@ import org.springframework.http.HttpStatus;
  * Created by someone on 26-Jul-2015.
  */
 public class ExceptionUtil {
+
+    public static void toRuntime(io.crm.core.intfs.Runnable runnable) {
+        try {
+            runnable.run();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void sallowRun(io.crm.core.intfs.Runnable runnable) {
         try {
             runnable.run();

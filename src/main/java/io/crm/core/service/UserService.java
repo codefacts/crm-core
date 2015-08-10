@@ -2,7 +2,7 @@ package io.crm.core.service;
 
 import io.crm.core.model.UserType;
 import io.crm.core.App;
-import io.crm.core.MC;
+import io.crm.core.mc;
 import io.crm.core.exceptions.ValidationException;
 import io.crm.core.model.Model;
 import io.crm.core.model.User;
@@ -55,11 +55,11 @@ public class UserService {
     private String mongo_collection(UserType userType) {
         switch (userType) {
             case employee:
-                return MC.employee;
+                return mc.employee;
             case client:
-                return MC.client;
+                return mc.client;
             case consumer:
-                return MC.consumer;
+                return mc.consumer;
         }
         return null;
     }

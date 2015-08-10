@@ -2,7 +2,7 @@ package io.crm.core.service;
 
 import io.crm.core.util.ExceptionUtil;
 import io.crm.core.App;
-import io.crm.core.MC;
+import io.crm.core.mc;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonObject;
 import org.springframework.stereotype.Component;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 public class BrandService {
 
     public void findAll(Message message) {
-        App.mongoClient.find(MC.brand, new JsonObject(), r -> {
+        App.mongoClient.find(mc.brand, new JsonObject(), r -> {
             if (r.failed()) {
                 ExceptionUtil.fail(message, r.cause());
                 return;

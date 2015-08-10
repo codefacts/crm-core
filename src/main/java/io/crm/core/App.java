@@ -1,7 +1,6 @@
 package io.crm.core;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mongodb.client.MongoDatabase;
 import io.vertx.core.*;
 import io.vertx.core.eventbus.EventBus;
 import io.vertx.core.json.JsonObject;
@@ -24,8 +23,7 @@ public class App {
     public static JsonObject mongoConfig;
     public static final int collection_count = 15;
     public static ConfigurableApplicationContext context;
-    public static com.mongodb.MongoClient mongoClientNative;
-    public static MongoDatabase db;
+    public final static int defaultBatchSize = 1000;
 
     @Autowired
     Environment env;

@@ -1,0 +1,32 @@
+package io.crm.core.model;
+
+/**
+ * Created by someone on 18/08/2015.
+ */
+public class Query {
+
+    public static final String id = "_id";
+    public static final String createDate = "createDate";
+    public static final String modifyDate = "modifyDate";
+    public static final String createdBy = "createdBy";
+    public static final String modifiedBy = "modifiedBy";
+    public static final String __self = "__self";
+    public static final String houseId = "houseId";
+    public static final String exists = "exists";
+    public static final String withId = "withId";
+    public static final String name = "name";
+
+    public static final String system_indexes = "system.indexes";
+    public static final String indexes = "indexes";
+    public static final String unique = "unique";
+    public static final String key = "key";
+    public static final String username = "username";
+    public static final String field = "field";
+    public static final String message = "message";
+    public static final String region = "region";
+    public static final String $set = "$set";
+    public static final String regionId = "regionId";
+    public static final String areaName = "areaName";
+    public static final String userId = "userId";
+    public static final String created_id = "assigned_id";
+}

@@ -2,13 +2,15 @@ package io.crm.core.service;
 
 import io.crm.core.App;
 import io.crm.core.exceptions.ValidationException;
-import io.crm.core.mc;
+import io.crm.core.helper.Helper;
+import io.crm.mc;
 import io.crm.core.mm;
 import io.crm.core.model.*;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.ext.mongo.MongoClient;
 import org.apache.commons.io.IOUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -16,16 +18,18 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static io.crm.core.model.Model.id;
+import static io.crm.core.model.Query.id;
 import static io.crm.core.model.Region.*;
 import static io.crm.core.model.Region.name;
-import static io.crm.core.util.ExceptionUtil.*;
-import static io.crm.core.util.Util.*;
+import static io.crm.util.ExceptionUtil.*;
+import static io.crm.util.Util.*;
 
 /**
  * Created by sohan on 8/1/2015.
  */
+@Service
 public class ImportService {
+    public final static int defaultBatchSize = 1000;
     private static final String BRANDS = "BRANDS";
     private static final String SUP_AC_RELATION = "SUP_AC_RELATION";
     private static final String BR_CATEGORIES = "BR_CATEGORIES";
@@ -36,11 +40,18 @@ public class ImportService {
     private static final String BRS = "BRS";
     private static final String SMS_INBOX = "SMS_INBOX";
     private final String dir = "D:\\DotNetProjects\\verify\\CRM_DB_EXPORTER\\CRM_DB_EXPORTER\\App_Data\\Wills_Kings_Launch_May_2015\\tables";
-    private String db = "wills_king";
+
+    private final App app;
+
+    @Autowired
+    public ImportService(App app) {
+        this.app = app;
+    }
+
 
     public void importDb() {
-        App.mongoClient = MongoClient.createShared(App.vertx, new JsonObject().put("db_name", db).put("host", "182.160.99.116").put("port", 27017));
-        App.mongoClient.runCommand(mm.dropDatabase, new JsonObject().put(mm.dropDatabase, 1), r -> {
+
+        app.getMongoClient().runCommand(mm.dropDatabase, new JsonObject().put(mm.dropDatabase, 1), r -> {
             if (r.failed()) {
                 throw new RuntimeException(r.cause());
             }
@@ -56,23 +67,24 @@ public class ImportService {
 
         final JsonArray users = allUsers(holder);
 
-        insert(mc.area, holder.areaList.values());
-        insert(mc.region, holder.regionList.values());
-        insert(mc.distribution_house, holder.houseList.values());
-        insert(mc.brand, holder.brandList.values());
+        insert(mc.areas, holder.areaList.values());
+        insert(mc.regions, holder.regionList.values());
+        insert(mc.distribution_houses, holder.houseList.values());
+        insert(mc.brands, holder.brandList.values());
 
-        insert(mc.location, holder.locationList.values());
-        insert(mc.employee, users);
+        insert(mc.locations, holder.locationList.values());
+        insert(mc.employees, users);
 
         final String[] files = new File(dir).list((f, name) -> name.startsWith(SMS_INBOX));
         for (String f : files) {
-            final JsonArray contactList = contactList(f, campaign, holder.brList, holder.houseList, holder.areaList, holder.regionList, holder.userList);
-            insert(mc.consumer_contact, contactList);
+            final JsonArray contactList = contactList(f, campaign, holder);
+            insert(mc.consumer_contacts, contactList);
         }
     }
 
-    private void insert(String colName, Collection<JsonObject> values) {
-        App.mongoClient.runCommand(mm.insert,
+    private void insert(mc col, Collection<JsonObject> values) {
+        String colName = col + "";
+        app.getMongoClient().runCommand(mm.insert,
                 new JsonObject().put(mm.insert, colName)
                         .put(mm.documents, toJsonArray(values)), s -> {
                     if (s.failed()) {
@@ -84,17 +96,17 @@ public class ImportService {
                 });
     }
 
-    private void insert(final String colName, final JsonArray array) {
-
+    private void insert(final mc c, final JsonArray array) {
+        String colName = c + "";
         final int size = array.size();
 
-        for (int start = 0; start < size; start += App.defaultBatchSize) {
+        for (int start = 0; start < size; start += defaultBatchSize) {
 
-            int toIndex = start + App.defaultBatchSize;
+            int toIndex = start + defaultBatchSize;
             toIndex = (toIndex > size) ? size : toIndex;
             final JsonArray jsonArray = new JsonArray(array.getList().subList(start, toIndex));
 
-            App.mongoClient.runCommand(mm.insert,
+            app.getMongoClient().runCommand(mm.insert,
                     new JsonObject().put(mm.insert, colName)
                             .put(mm.documents, jsonArray), s -> {
                         if (s.failed()) {
@@ -120,7 +132,7 @@ public class ImportService {
         final JsonArray array = new JsonArray();
 
         holder.userList.forEach((k, user) -> {
-            if (employeeType(user) == EmployeeType.br_supervisor) {
+            if (Helper.employeeType(user) == EmployeeType.br_supervisor) {
                 final Long actualId = user.getLong(id);
                 final Long sup_id = holder.ac_sup_relation.get(actualId);
                 user.put(Sup.ac, holder.userList.get(sup_id));
@@ -155,8 +167,8 @@ public class ImportService {
                 brCategories = brCategories(BR_CATEGORIES);
                 regionList = regionList(REGIONS);
                 areaList = areaList(AREAS, regionList);
-                locationList = locationList(BRS, locationMap, locationMapByHouse);
                 houseList = houseList(DISTRIBUTION_HOUSES, areaList, locationMap, locationMapByHouse);
+                locationList = locationList(BRS, locationMap, locationMapByHouse, houseList);
                 userList = userList(USERS, campaign, userIdGenerator);
                 brList = brList(BRS, houseList, locationMap, brCategories, userList, userIdGenerator);
             } catch (IOException ex) {
@@ -194,18 +206,20 @@ public class ImportService {
         return hashMap;
     }
 
-    private Map<Long, JsonObject> locationList(String fileName, Map<String, JsonObject> hashMap, Map<Long, Set<String>> locationMapByHouse) throws IOException {
+    private Map<Long, JsonObject> locationList(String fileName, Map<String, JsonObject> hashMap, Map<Long, Set<String>> locationMapByHouse, Map<Long, JsonObject> houseList) throws IOException {
         final JsonArray jsonArray = new JsonArray(loadFile(fileName));
         long location_id = 1;
         for (Object jsonObj : jsonArray) {
             final JsonObject json = (JsonObject) jsonObj;
             final String location = json.getString("LOCATION");
+            final Long distribution_house_id = json.getLong("DISTRIBUTION_HOUSE_ID");
             if (!hashMap.containsKey(location)) {
-                final JsonObject object = new JsonObject()
+                final JsonObject locationObject = new JsonObject()
                         .put(id, location_id++)
-                        .put(name, location);
-                hashMap.put(location, object);
-                final Long distribution_house_id = json.getLong("DISTRIBUTION_HOUSE_ID");
+                        .put(name, location)
+                        .put(Location.distributionHouse, newHouse(houseList, distribution_house_id));
+
+                hashMap.put(location, locationObject);
                 if (!locationMapByHouse.containsKey(distribution_house_id)) {
                     locationMapByHouse.put(distribution_house_id, new HashSet<>());
                 }
@@ -246,7 +260,6 @@ public class ImportService {
             JsonObject entity = new JsonObject().put(id, distribution_house_id)
                     .put(name, json.getString("DISTRIBUTION_HOUSE_NAME"))
                     .put(House.area, areaList.get(area_id))
-                    .put(House.locations, findLocations(locationMap, locationMapByHouse, distribution_house_id))
                     .put(active, true);
             list.put(entity.getLong(id), entity);
         }
@@ -364,58 +377,67 @@ public class ImportService {
         return object != null ? object : null;
     }
 
-    private JsonArray contactList(String absoluteFilePath, JsonObject campaign, Map<Long, JsonObject> brList, Map<Long, JsonObject> houseList, Map<Long, JsonObject> areaList, Map<Long, JsonObject> regionList, Map<Long, JsonObject> userList) throws IOException {
+    private JsonArray contactList(String absoluteFilePath, JsonObject campaign, Holder holder) throws IOException {
         final JsonArray jsonArray = new JsonArray(loadFile2(absoluteFilePath));
         final JsonArray list = new JsonArray();
         JsonArray contacts = new JsonArray();
+        final JsonObject cmp = campaign.copy();
+
         for (final Object jsonObj : jsonArray) {
-            final JsonObject json = (JsonObject) jsonObj;
+            try {
+                final JsonObject json = (JsonObject) jsonObj;
 
-            final Long sms_id = json.getLong("SMS_ID");
-            final Long br_id = json.getLong("BR_ID");
-            JsonObject br = brList.get(br_id);
-            JsonObject house;
-            JsonObject area;
-            JsonObject region;
-            if (br == null) {
-//                throw new ValidationException(String.format("BR_ID: %d not found. SMS ID: %d", br_id, sms_id));
-                System.err.println(String.format("BR_ID: %d not found. SMS ID: %d", br_id, sms_id));
+                final Long sms_id = json.getLong("SMS_ID");
+                final Long br_id = json.getLong("BR_ID");
+                JsonObject br = holder.brList.get(br_id);
+                JsonObject house;
+                JsonObject area;
+                JsonObject region;
+                if (br == null) {
+                    throw new ValidationException(String.format("BR_ID: %d not found. SMS ID: %d", br_id, sms_id));
+                }
+
+                br = br.copy();
+
+                house = newHouse(holder.houseList, br.getJsonObject(Br.distributionHouse).getLong(id)).copy();
+                area = newArea(holder.areaList, house).copy();
+                region = newRegion(holder.regionList, area).copy();
+
+                br.put(Br.distributionHouse, house);
+                house.put(House.area, area).put(House.locations,
+                        findLocations(holder.locationMap, holder.locationMapByHouse, house.getLong(id))
+                                .copy());
+                area.put(Area.region, region);
+
+                if (br.getJsonObject(Br.supervisor) != null && br.getJsonObject(Br.supervisor).getLong(id) != null) {
+                    JsonObject supervisor = newSupervisor(holder.userList, br.getJsonObject(Br.supervisor).getLong(id))
+                            .copy();
+                    br.put(Br.supervisor, supervisor);
+                }
+
+                final String date1 = json.getString("Date");
+                final String receive_date = json.getString("RECEIVE_DATE");
+                final JsonObject date = (date1 == null || date1.isEmpty()) ? null : toMongoDate(date1);
+                final JsonObject receiveDate = (receive_date == null || receive_date.isEmpty()) ? null : toMongoDate(receive_date);
+
+                //Brand
+                JsonObject entity = new JsonObject()
+                        .put(id, sms_id)
+
+                        .put(Contact.br, br)
+                        .put(Contact.campaign, cmp)
+                        .put(Contact.consumer, consumer(json))
+
+                        .put(Contact.brand, json.getString("Brand"))
+                        .put(Contact.ptr, json.getBoolean("PTR"))
+                        .put(Contact.swp, json.getBoolean("SWAP"))
+                        .put(Contact.date, date)
+                        .put(Contact.receive_date, receiveDate);
+                list.add(entity);
+                contacts.add(entity);
+            } catch (ValidationException ex) {
+                System.out.println(">>>>>VALIDATION EXCEPTION: " + ex.getMessage());
             }
-
-            br = br.copy();
-            house = newHouse(houseList, br.getJsonObject(Br.distributionHouse).getLong(id));
-            area = newArea(areaList, house);
-            region = newRegion(regionList, area);
-
-            br.put(Br.distributionHouse, house);
-            house.put(House.area, area);
-            area.put(Area.region, region);
-
-            if (br.getJsonObject(Br.supervisor) != null && br.getJsonObject(Br.supervisor).getLong(id) != null) {
-                JsonObject supervisor = newSupervisor(userList, br.getJsonObject(Br.supervisor).getLong(id));
-                br.put(Br.supervisor, supervisor);
-            }
-
-            final String date1 = json.getString("Date");
-            final String receive_date = json.getString("RECEIVE_DATE");
-            final JsonObject date = (date1 == null || date1.isEmpty()) ? null : toMongoDate(date1);
-            final JsonObject receiveDate = (receive_date == null || receive_date.isEmpty()) ? null : toMongoDate(receive_date);
-
-            //Brand
-            JsonObject entity = new JsonObject()
-                    .put(id, sms_id)
-
-                    .put(Contact.br, br)
-                    .put(Contact.campaign, campaign)
-                    .put(Contact.consumer, consumer(json))
-
-                    .put(Contact.brand, json.getString("Brand"))
-                    .put(Contact.ptr, json.getBoolean("PTR"))
-                    .put(Contact.swp, json.getBoolean("SWAP"))
-                    .put(Contact.date, date)
-                    .put(Contact.receive_date, receiveDate);
-            list.add(entity);
-            contacts.add(entity);
         }
         return list;
     }
@@ -525,14 +547,13 @@ public class ImportService {
     }
 
     public static void main(String... args) throws IOException {
-        App.testInitVertx();
+
 
         System.out.println("<<<<<<<<<<<<<<<<<<<<STARTED>>>>>>>>>>>>>>>>>>>>>>>\n");
 
-        new ImportService().importDb();
 
         System.in.read();
-        App.testCloseVertx();
+
         System.out.println("\n<<<<<<<<<<<<<<<<<<<<DONE>>>>>>>>>>>>>>>>>>>>>>>");
     }
 

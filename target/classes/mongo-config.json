@@ -1,5 +1,5 @@
 {
-  "db_name": "crm_db",
+  "db_name": "phase_0",
   //  // Credentials / Auth
   //  "username": "admin",
   //  // string
@@ -7,6 +7,7 @@
   //  // string
   //  "authSource": "some.db"
 
-  "host" : "182.160.99.116", // string
+  "host" : "localhost", // string
+//  "host" : "182.160.99.116", // string
   "port" : 27017      // int
 }

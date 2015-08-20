@@ -1,12 +1,12 @@
 package io.crm.core.service;
 
+import io.crm.core.model.Query;
 import io.crm.core.model.UserType;
 import io.crm.core.App;
-import io.crm.core.mc;
+import io.crm.mc;
 import io.crm.core.exceptions.ValidationException;
-import io.crm.core.model.Model;
 import io.crm.core.model.User;
-import io.crm.core.util.ExceptionUtil;
+import io.crm.util.ExceptionUtil;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.AsyncResultHandler;
 import io.vertx.core.eventbus.Message;
@@ -21,13 +21,20 @@ import java.util.Date;
  */
 @Component
 public class UserService {
+    private final App app;
+    private final UserIndexService userIndexService;
+
     @Autowired
-    private UserIndexService userIndexService;
+    public UserService(App app, UserIndexService userIndexService) {
+        this.app = app;
+        this.userIndexService = userIndexService;
+    }
+
 
     public void create(JsonObject user, Message message, String newUserId, UserType userType, AsyncResultHandler<String> handler) {
         Date date = new Date();
-        user.put(Model.createDate, date);
-        user.put(Model.modifyDate, date);
+        user.put(Query.createDate, date);
+        user.put(Query.modifyDate, date);
 
         validate(user, new AsyncResultHandler<JsonObject>() {
             @Override
@@ -38,14 +45,14 @@ public class UserService {
                         return;
                     }
                     final String index_id = result.result();
-                    App.mongoClient.insert(mongo_collection(userType), user, r -> {
+                    app.getMongoClient().insert(mongo_collection(userType), user, r -> {
                         if (r.failed()) {
                             ExceptionUtil.fail(message, r.cause());
                             return;
                         }
                         final String admin_id = r.result();
 
-                        UserIndexService.update(index_id, newUserId, admin_id, userType, handler);
+                        UserIndexService.update(app, index_id, newUserId, admin_id, userType, handler);
                     });
                 });
             }
@@ -55,17 +62,17 @@ public class UserService {
     private String mongo_collection(UserType userType) {
         switch (userType) {
             case employee:
-                return mc.employee;
+                return mc.employees + "";
             case client:
-                return mc.client;
+                return mc.clients + "";
             case consumer:
-                return mc.consumer;
+                return mc.consumers + "";
         }
         return null;
     }
 
     private void validate(JsonObject user, AsyncResultHandler<JsonObject> asyncResultHandler) {
-        ExceptionUtil.sallowCall(() -> {
+        ExceptionUtil.then(() -> {
             final String usrType = user.getString(User.userType);
             if (usrType == null || usrType.trim().isEmpty()) {
                 new ValidationException("UserType is required.");

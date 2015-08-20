@@ -1,7 +1,7 @@
 package io.crm.core.codec;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.crm.core.util.ExceptionUtil;
+import io.crm.util.ExceptionUtil;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.eventbus.MessageCodec;
 import io.vertx.core.json.JsonArray;
@@ -15,16 +15,16 @@ import java.util.ArrayList;
  */
 @Component
 public class ArrayListToJsonArrayCodec implements MessageCodec<ArrayList, JsonArray> {
-    private final ObjectMapper mapper;
+    private final ObjectMapper objectMapper;
 
     @Autowired
-    public ArrayListToJsonArrayCodec(final ObjectMapper mapper) {
-        this.mapper = mapper;
+    public ArrayListToJsonArrayCodec(final ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
     }
 
     @Override
     public void encodeToWire(Buffer buffer, ArrayList arrayList) {
-        byte[] bytes = ExceptionUtil.sallowCall(() -> mapper.writeValueAsBytes(arrayList));
+        byte[] bytes = ExceptionUtil.sallowCall(() -> objectMapper.writeValueAsBytes(arrayList));
         buffer.appendInt(bytes.length);
         buffer.appendBytes(bytes);
     }

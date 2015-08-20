@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Contact implements Serializable, Model {
+public class Contact implements Serializable {
     public static final String campaign = "campaign";
     public static final String region = "region";
     public static final String area = "area";

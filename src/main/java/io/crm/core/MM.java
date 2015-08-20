@@ -8,4 +8,5 @@ public class mm {
     public static String documents = "documents";
     public static String dropDatabase = "dropDatabase";
     public static String use = "use";
+    public static String createIndexes = "createIndexes";
 }

@@ -70,7 +70,7 @@ final public class TaskCoordinator {
             if (onComplete != null) try {
                 onComplete.accept(this);
             } catch (Exception ex) {
-                fail(message, ex);
+                ExceptionUtil.fail(message, ex);
                 exceptions.add(ex);
             }
         }
@@ -126,5 +126,11 @@ final public class TaskCoordinator {
 
     public void finish() {
         countdown(count);
+    }
+
+    public void signalError(Throwable throwable) {
+        error = throwable;
+        if (message != null) fail(message, error);
+        countdown();
     }
 }

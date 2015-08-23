@@ -28,5 +28,10 @@ public class Query {
     public static final String regionId = "regionId";
     public static final String areaName = "areaName";
     public static final String userId = "userId";
-    public static final String created_id = "assigned_id";
+    public static final String assigned_id = "assigned_id";
+    public static final String area = "area";
+    public static final String areaId = "areaId";
+    public static final String distributionHouse = "distributionHouse";
+    public static final String distributionHouseId = "distributionHouseId";
+    public static final String label = "label";
 }

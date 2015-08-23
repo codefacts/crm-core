@@ -1,7 +1,5 @@
 package io.crm;
 
-import io.crm.core.model.Query;
-
 /**
  * Created by someone on 18/08/2015.
  */
@@ -11,8 +9,8 @@ public enum Indexes {
     house_name(mc.distribution_houses, new IndexTouple[]{new IndexTouple(Query.name, 1)}, true),
     brand_name(mc.brands, new IndexTouple[]{new IndexTouple(Query.name, 1)}, true),
     location_name(mc.locations, new IndexTouple[]{new IndexTouple(Query.name, 1)}, true),
-    created_ids(mc.all_ids, new IndexTouple[]{new IndexTouple(Query.key, 1), new IndexTouple(Query.created_id, 1)}, true),
     user_id(mc.user_indexes, new IndexTouple[]{new IndexTouple(Query.userId, 1)}, true),
+    user_type(mc.user_types, new IndexTouple[]{new IndexTouple(Query.name, 1)}, true),
     username(mc.user_indexes, new IndexTouple[]{new IndexTouple(Query.username, 1)}, true);
 
     public final String collection;
@@ -24,4 +22,11 @@ public enum Indexes {
         this.kyes = kyes;
         this.unique = unique;
     }
+}
+
+class Query {
+    public static final String name = "name";
+    public static final String userId = "userId";
+    public static final String username = "username";
+    public static final String userType = "userType";
 }

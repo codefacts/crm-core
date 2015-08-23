@@ -4,25 +4,45 @@ package io.crm;
  * Created by sohan on 7/29/2015.
  */
 public enum mc {
-    areas,
-    brands,
-    clients,
-    consumer_contacts,
-    consumers,
-    distribution_houses,
-    employees,
-    regions,
-    locations,
-    user_indexes(-1),
-    all_ids(-1);
+    areas("area", "Area"),
+    brands("brand", "Region"),
+    clients("client", "Client"),
+    consumer_contacts("consumer_contact", "Consumer Contact"),
+    consumers("consumer", "Consumer"),
+    distribution_houses("distributionHouse", "Distribution House"),
+    employees("employee", "Employee"),
+    regions("region", "Region"),
+    locations("location", "Location"),
+    user_types("userType", "User Type"),
+    user_indexes("user_index", "User Index", -1, true);
 
+    public final String label;
+    public final String fieldName;
+    private final boolean internal;
     private long nextId = 0;
 
-    mc(long nextId) {
+    mc(String fieldName, String label, long nextId, boolean internal) {
+        this.fieldName = fieldName;
+        this.label = label;
         this.nextId = nextId;
+        this.internal = internal;
     }
 
-    mc() {
+    mc(String fieldName, String label, long nextId) {
+        this.fieldName = fieldName;
+        this.label = label;
+        this.nextId = nextId;
+        this.internal = false;
+    }
+
+    mc(String fieldName, String label) {
+        this.fieldName = fieldName;
+        this.label = label;
+        this.internal = false;
+    }
+
+    public boolean isInternal() {
+        return internal;
     }
 
     public void setNextId(long nextId) {

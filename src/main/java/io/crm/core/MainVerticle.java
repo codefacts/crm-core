@@ -1,7 +1,10 @@
 package io.crm.core;
 
+import com.mongodb.MongoException;
+import com.mongodb.MongoWriteException;
 import io.crm.IndexTouple;
 import io.crm.Indexes;
+import io.crm.core.model.EmployeeType;
 import io.crm.core.model.Query;
 import io.crm.core.service.*;
 import io.crm.mc;
@@ -22,6 +25,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static io.crm.core.model.Query.*;
+import static io.crm.util.AsyncUtil.fail;
+import static io.crm.util.AsyncUtil.success;
 
 /**
  * Created by someone on 08-Jul-2015.
@@ -69,13 +76,13 @@ public class MainVerticle extends AbstractVerticle {
 
         createCollections(r -> {
             if (r.failed()) {
-                handler.handle(AsyncUtil.fail(r.cause()));
+                handler.handle(fail(r.cause()));
                 return;
             }
 
             createIndexes(rr -> {
                 if (rr.failed()) {
-                    handler.handle(AsyncUtil.fail(rr.cause()));
+                    handler.handle(fail(rr.cause()));
                     return;
                 }
                 createIds(handler);
@@ -86,21 +93,53 @@ public class MainVerticle extends AbstractVerticle {
     private void createIds(AsyncResultHandler<Void> handler) {
 
         final TaskCoordinator taskCoordinator = new TaskCoordinatorBuilder().create().count(mc.values().length)
-                .onSuccess(() -> handler.handle(AsyncUtil.success(null)))
-                .onError(e -> handler.handle(AsyncUtil.fail(e))).get();
+                .onSuccess(() -> createUserTypes(handler))
+                .onError(e -> handler.handle(fail(e))).get();
 
         for (mc m : mc.values()) {
             app.getMongoClient().findWithOptions(m.name(), new JsonObject(), new FindOptions()
                     .setLimit(1)
                     .setSort(new JsonObject()
-                            .put(Query.id, -1))
-                    .setFields(new JsonObject().put(Query.id, 1)), taskCoordinator.add(list -> {
+                            .put(id, -1))
+                    .setFields(new JsonObject().put(id, 1)), taskCoordinator.add(list -> {
 
                 if (m.isIdTypeLong()) {
-                    m.setNextId(list.size() <= 0 ? 1 : (list.get(0).getLong(Query.id) + 1));
-                    System.out.println(String.format("SETTING NEXT ID %d FOR %s", m.getNextId(), m.name()));
+                    m.setNextId(list.size() <= 0 ? 1 : (list.get(0).getLong(id) + 1));
+                    final long nextId = m.getNextId();
+                    final int length = EmployeeType.values().length;
+                    if (m == mc.user_types) {
+                        m.setNextId(nextId <= length ? length : nextId);
+                    }
+                    System.out.println(String.format("SETTING NEXT ID %d FOR %s", nextId, m.name()));
                 }
             }));
+        }
+    }
+
+    private void createUserTypes(final AsyncResultHandler<Void> handler) {
+        final TaskCoordinator taskCoordinator = new TaskCoordinatorBuilder().create().count(EmployeeType.values().length)
+                .onSuccess(() -> handler.handle(success()))
+                .onError(e -> handler.handle(fail(e))).get();
+
+        for (EmployeeType employeeType : EmployeeType.values()) {
+            app.getMongoClient().insert(mc.user_types.name(), new JsonObject()
+                    .put(id, employeeType.id)
+                    .put(name, employeeType.name())
+                    .put(label, employeeType.label), r -> {
+                if (r.failed()) {
+                    if (r.cause() instanceof MongoWriteException) {
+                        MongoWriteException exception = (MongoWriteException) r.cause();
+                        System.out.println("MongoWriteException CODE: " + exception.getCode());
+                        if (exception.getCode() == 11000) {
+                            taskCoordinator.countdown();
+                            return;
+                        }
+                    }
+                    taskCoordinator.signalError(r.cause());
+                    return;
+                }
+                System.out.println(String.format("INDEX CREATION SUCCESSFUL. INDEX [ID: %d, NAME: %s]. RESPONSE: ", employeeType.id, employeeType.name()) + r);
+            });
         }
     }
 
@@ -109,7 +148,7 @@ public class MainVerticle extends AbstractVerticle {
 
         mongoClient.runCommand("listCollections", new JsonObject().put("listCollections", ""), r -> {
             if (r.failed()) {
-                handler.handle(AsyncUtil.fail(r.cause()));
+                handler.handle(fail(r.cause()));
                 return;
             }
             System.out.println(r.result());
@@ -130,17 +169,17 @@ public class MainVerticle extends AbstractVerticle {
     private void createIndexes(AsyncResultHandler<Void> handler) {
         final TaskCoordinator taskCoordinator = TaskCoordinatorBuilder.create()
                 .count(Indexes.values().length)
-                .onError(e -> handler.handle(AsyncUtil.fail(e)))
-                .onSuccess(() -> handler.handle(AsyncUtil.success(null)))
+                .onError(e -> handler.handle(fail(e)))
+                .onSuccess(() -> handler.handle(success(null)))
                 .get();
 
-        app.getMongoClient().find(Query.system_indexes, new JsonObject(), r -> {
+        app.getMongoClient().find(system_indexes, new JsonObject(), r -> {
             if (r.failed()) {
-                handler.handle(AsyncUtil.fail(r.cause()));
+                handler.handle(fail(r.cause()));
                 return;
             }
 
-            final Set<String> indexes = r.result().stream().map(json -> json.getString(Query.name)).collect(Collectors.toSet());
+            final Set<String> indexes = r.result().stream().map(json -> json.getString(name)).collect(Collectors.toSet());
 
             for (Indexes index : Indexes.values()) {
                 if (indexes.contains(index.name())) {
@@ -152,9 +191,9 @@ public class MainVerticle extends AbstractVerticle {
                                 .put(mm.createIndexes, index.collection)
                                 .put(Query.indexes, new JsonArray()
                                         .add(new JsonObject()
-                                                .put(Query.key, keys(index.kyes))
-                                                .put(Query.name, index.name())
-                                                .put(Query.unique, index.unique))), taskCoordinator.add(cr -> System.out.println("Index created successfully. Index: " + index)));
+                                                .put(key, keys(index.kyes))
+                                                .put(name, index.name())
+                                                .put(unique, index.unique))), taskCoordinator.add(cr -> System.out.println("Index created successfully. Index: " + index)));
             }
 
         });
@@ -173,19 +212,19 @@ public class MainVerticle extends AbstractVerticle {
         if (map.containsKey(collectionName)) {
             count--;
             if (count <= 0) {
-                handler.handle(AsyncUtil.success(null));
+                handler.handle(success(null));
             }
             return;
         }
 
         app.getMongoClient().runCommand("create", new JsonObject().put("create", collectionName), r -> {
             if (r.failed()) {
-                handler.handle(AsyncUtil.fail(r.cause()));
+                handler.handle(fail(r.cause()));
                 return;
             }
             count--;
             if (count <= 0) {
-                handler.handle(AsyncUtil.success(null));
+                handler.handle(success(null));
             }
         });
     }
@@ -207,10 +246,18 @@ public class MainVerticle extends AbstractVerticle {
     private void registerEvents(ConfigurableApplicationContext ctx) {
         final EventBus bus = getVertx().eventBus();
 
-        bus.consumer(Events.FIND_ALL_TOWNS, ctx.getBean(TownService.class)::findAll);
-
         bus.consumer(Events.UPDATE_AREA, ctx.getBean(AreaService.class)::update);
         bus.consumer(Events.CREATE_AREA, ctx.getBean(AreaService.class)::create);
+        bus.consumer(Events.UPDATE_REGION, ctx.getBean(RegionService.class)::update);
+        bus.consumer(Events.CREATE_REGION, ctx.getBean(RegionService.class)::create);
+        bus.consumer(Events.UPDATE_HOUSE, ctx.getBean(DistributionHouseService.class)::update);
+        bus.consumer(Events.CREATE_HOUSE, ctx.getBean(DistributionHouseService.class)::create);
+        bus.consumer(Events.UPDATE_LOCATION, ctx.getBean(LocationService.class)::update);
+        bus.consumer(Events.CREATE_LOCATION, ctx.getBean(LocationService.class)::create);
+        bus.consumer(Events.UPDATE_BRAND, ctx.getBean(BrandService.class)::update);
+        bus.consumer(Events.CREATE_BRAND, ctx.getBean(BrandService.class)::create);
+        bus.consumer(Events.UPDATE_USER_TYPE, ctx.getBean(UserTypeService.class)::update);
+        bus.consumer(Events.CREATE_USER_TYPE, ctx.getBean(UserTypeService.class)::create);
     }
 
     public static String loadConfig() {

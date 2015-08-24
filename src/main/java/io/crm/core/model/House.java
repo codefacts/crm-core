@@ -8,7 +8,7 @@ import java.io.Serializable;
 public class House implements Serializable {
     public static final String name = "name";
     public static final String area = "area";
-    public static final String locations = "location";
+    public static final String locations = "locations";
     public static final String active = "active";
 
     House() {

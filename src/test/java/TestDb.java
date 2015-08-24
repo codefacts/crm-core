@@ -1,4 +1,20 @@
+import io.crm.core.App;
+import io.crm.core.model.House;
+import io.crm.core.model.Location;
+import io.crm.core.model.Query;
+import io.crm.core.service.DistributionHouseService;
+import io.crm.mc;
+import io.crm.util.TaskCoordinator;
+import io.crm.util.TaskCoordinatorBuilder;
+import io.crm.util.Util;
+import io.vertx.core.Vertx;
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
+import io.vertx.ext.mongo.MongoClient;
+
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 import static java.util.stream.Collectors.toMap;
 
@@ -7,8 +23,11 @@ import static java.util.stream.Collectors.toMap;
  */
 public class TestDb {
     public static void main(String... args) throws IOException {
-
+        final JsonArray array = new JsonArray(Arrays.asList(new JsonObject().put(Query.name, "Sohan").getMap()));
+        array.stream().forEach(s -> System.out.println(s.getClass() + " - " + s));
+        System.in.read();
     }
+
     static class Entry {
         final long id;
         final String name;

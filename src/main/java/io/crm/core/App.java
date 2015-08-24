@@ -36,7 +36,7 @@ final public class App {
         };
     }
 
-    void initialize(EventBus bus, Vertx vertx, MongoClient mongoClient, JsonObject mongoConfig, ConfigurableApplicationContext context) {
+    public void initialize(EventBus bus, Vertx vertx, MongoClient mongoClient, JsonObject mongoConfig, ConfigurableApplicationContext context) {
         this.bus = bus;
         this.vertx = vertx;
         this.mongoClient = mongoClient;

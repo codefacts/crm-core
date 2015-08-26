@@ -499,13 +499,13 @@ public class ImportService {
     }
 
     private static final class UserIdGenerator {
-        final UserId ad = new UserId("ad-");
-        final UserId ho = new UserId("ho-");
-        final UserId ac = new UserId("ac-");
-        final UserId sp = new UserId("sp-");
-        final UserId br = new UserId("br-");
-        final UserId co = new UserId("co-");
-        final UserId cs = new UserId("cs-");
+        final UserId ad = new UserId(EmployeeType.admin.prefix + "-");
+        final UserId ho = new UserId(EmployeeType.head_office.prefix + "-");
+        final UserId ac = new UserId(EmployeeType.area_coordinator.prefix + "-");
+        final UserId sp = new UserId(EmployeeType.br_supervisor.prefix + "-");
+        final UserId br = new UserId(EmployeeType.br.prefix + "-");
+        final UserId co = new UserId(EmployeeType.call_operator.prefix + "-");
+        final UserId cs = new UserId(EmployeeType.call_center_supervisor.prefix + "-");
 
         public String nextId(Long user_type_id) {
             switch (user_type_id.intValue()) {

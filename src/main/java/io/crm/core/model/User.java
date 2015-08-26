@@ -27,6 +27,7 @@ public class User {
     }
 
     public static class Type {
+        public static final String prefix = "prefix";
         public static final String label = "label";
     }
 }

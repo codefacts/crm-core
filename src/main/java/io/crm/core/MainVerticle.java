@@ -85,7 +85,13 @@ public class MainVerticle extends AbstractVerticle {
                     handler.handle(fail(rr.cause()));
                     return;
                 }
-                createIds(handler);
+                createIds(r2 -> {
+                    if (r2.failed()) {
+                        handler.handle(fail(rr.cause()));
+                        return;
+                    }
+                    createUserTypes(handler);
+                });
             });
         });
     }
@@ -93,7 +99,7 @@ public class MainVerticle extends AbstractVerticle {
     private void createIds(AsyncResultHandler<Void> handler) {
 
         final TaskCoordinator taskCoordinator = new TaskCoordinatorBuilder().create().count(mc.values().length)
-                .onSuccess(() -> createUserTypes(handler))
+                .onSuccess(() -> handler.handle(success()))
                 .onError(e -> handler.handle(fail(e))).get();
 
         for (mc m : mc.values()) {
@@ -125,6 +131,7 @@ public class MainVerticle extends AbstractVerticle {
             app.getMongoClient().insert(mc.user_types.name(), new JsonObject()
                     .put(id, employeeType.id)
                     .put(name, employeeType.name())
+                    .put(prefix, employeeType.prefix)
                     .put(label, employeeType.label), r -> {
                 if (r.failed()) {
                     if (r.cause() instanceof MongoWriteException) {

@@ -2,23 +2,18 @@ package io.crm.core.service;
 
 import io.crm.FailureCode;
 import io.crm.core.App;
-import io.crm.core.Events;
-import io.crm.core.model.AllIDs;
 import io.crm.core.model.Query;
 import io.crm.intfs.ConsumerInterface;
 import io.crm.mc;
 import io.crm.util.*;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonObject;
-import io.vertx.ext.mongo.FindOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 import static io.crm.core.model.Query.id;
 import static io.crm.util.ExceptionUtil.withReply;
-import static io.crm.util.Util.emptyOrNull;
+import static io.crm.util.Util.isEmptyOrNull;
 import static io.crm.util.Util.trim;
 
 /**
@@ -123,7 +118,7 @@ public class DbService {
             taskCoordinator.countdown();
         }
 
-        if (emptyOrNull(objName)) {
+        if (isEmptyOrNull(objName)) {
             errorBuilder.put(Query.name, String.format("%s Name is required.", collection.label));
             taskCoordinator.countdown();
         } else {
@@ -164,7 +159,7 @@ public class DbService {
             return;
         }
 
-        if (emptyOrNull(objName)) {
+        if (isEmptyOrNull(objName)) {
             errorBuilder.put(Query.name, String.format("%s Name is required.", collection));
             taskCoordinator.countdown();
         } else {

@@ -14,6 +14,7 @@ public class User {
 
     public static final String fatherName = "fatherName";
     public static final String occupation = "occupation";
+    public static final String designation = "designation";
 
     public static final String username = "username";
     public static final String password = "password";

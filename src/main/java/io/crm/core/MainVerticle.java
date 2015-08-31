@@ -265,6 +265,8 @@ public class MainVerticle extends AbstractVerticle {
         bus.consumer(Events.CREATE_BRAND, ctx.getBean(BrandService.class)::create);
         bus.consumer(Events.UPDATE_USER_TYPE, ctx.getBean(UserTypeService.class)::update);
         bus.consumer(Events.CREATE_USER_TYPE, ctx.getBean(UserTypeService.class)::create);
+        bus.consumer(Events.CREATE_CAMPAIGN, ctx.getBean(CampaignService.class)::create);
+        bus.consumer(Events.UPDATE_CAMPAIGN, ctx.getBean(CampaignService.class)::update);
     }
 
     public static String loadConfig() {

@@ -5,6 +5,8 @@ package io.crm.core.model;
  */
 public class Campaign {
     public static final String brand = "brand";
-    public static final String startDate = "startDate";
-    public static final String endDate = "endDate";
+    public static final String salaryStartDate = "salaryStartDate";
+    public static final String salaryEndDate = "salaryEndDate";
+    public static final String launchDate = "launchDate";
+    public static final String closeDate = "closeDate";
 }

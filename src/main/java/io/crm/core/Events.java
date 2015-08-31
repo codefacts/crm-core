@@ -30,4 +30,8 @@ final public class Events {
     public static final String CREATE_USER_TYPE = "CREATE_USER_TYPE";
     public static final String NEW_USER_TYPE_CREATED = "NEW_USER_TYPE_CREATED";
     public static final String USER_TYPE_UPDATED = "USER_TYPE_UPDATED";
+    public static final String NEW_CAMPAIGN_CREATED = "NEW_CAMPAIGN_CREATED";
+    public static final String CAMPAIGN_UPDATED = "CAMPAIGN_UPDATED";
+    public static final String CREATE_CAMPAIGN = "CREATE_CAMPAIGN";
+    public static final String UPDATE_CAMPAIGN = "UPDATE_CAMPAIGN";
 }

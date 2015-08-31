@@ -8,11 +8,15 @@ import io.crm.mc;
 import io.crm.util.*;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonObject;
+import io.vertx.ext.mongo.MongoClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import static io.crm.core.model.Query.id;
+import static io.crm.util.ExceptionUtil.fail;
+import static io.crm.util.ExceptionUtil.logException;
 import static io.crm.util.ExceptionUtil.withReply;
+import static io.crm.util.Util.id;
 import static io.crm.util.Util.isEmptyOrNull;
 import static io.crm.util.Util.trim;
 
@@ -64,7 +68,7 @@ public class DbService {
                        final String parentIdField,
                        final String ON_UPDATE_MESSAGE,
                        final String NAME_CAPITALIZED) {
-        
+
         final DbService dbService = this;
         final JsonObject obj = message.body();
 
@@ -195,7 +199,7 @@ public class DbService {
                 .message(message)
                 .get();
 
-        final Long parentId = Util.id(obj, parentField);
+        final Long parentId = id(obj.getValue(parentField));
 
         if (parentId == null || parentId <= 0) {
             errorBuilder.put(parentIdField, parentLabel + " ID is required.");
@@ -213,4 +217,5 @@ public class DbService {
                     }));
         }
     }
+
 }

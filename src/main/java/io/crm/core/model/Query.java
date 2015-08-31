@@ -38,6 +38,7 @@ public class Query {
     public static final String userTypeId = concat(User.userType, id);
     public static final String brId = concat(Contact.br, id);
     public static final String prefix = "prefix";
+    public static final String brand = "brand";
 
     public static final String concat(String... strings) {
         return String.join(".", strings);

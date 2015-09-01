@@ -1,7 +1,7 @@
 package io.crm.core.service;
 
+import io.crm.Events;
 import io.crm.core.App;
-import io.crm.core.Events;
 import io.crm.mc;
 import io.crm.util.Util;
 import io.vertx.core.eventbus.Message;

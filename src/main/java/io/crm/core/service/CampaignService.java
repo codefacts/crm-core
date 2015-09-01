@@ -1,8 +1,8 @@
 package io.crm.core.service;
 
+import io.crm.Events;
 import io.crm.FailureCode;
 import io.crm.core.App;
-import io.crm.core.Events;
 import io.crm.core.model.Campaign;
 import io.crm.core.model.Query;
 import io.crm.mc;
@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 
 import static io.crm.core.model.Query.id;
 import static io.crm.util.ExceptionUtil.withReply;
-import static io.crm.util.Util.id;
 import static io.crm.util.Util.updateObject;
 
 /**

@@ -1,7 +1,7 @@
 package io.crm.core.service;
 
+import io.crm.Events;
 import io.crm.core.App;
-import io.crm.core.Events;
 import io.crm.mc;
 import io.crm.util.Util;
 import io.vertx.core.eventbus.Message;
@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 
 import static io.crm.core.model.Query.id;
 import static io.crm.util.ExceptionUtil.withReply;
-import static io.crm.util.Util.isEmptyOrNull;
 
 @Component
 public class RegionService {

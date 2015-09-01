@@ -1,20 +1,13 @@
 package io.crm.core.service;
 
-import io.crm.FailureCode;
+import io.crm.Events;
 import io.crm.core.App;
-import io.crm.core.Events;
 import io.crm.mc;
 import io.crm.core.model.Query;
-import io.crm.intfs.ConsumerInterface;
-import io.crm.util.*;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import static io.crm.core.model.Query.id;
-import static io.crm.util.ExceptionUtil.withReply;
-import static io.crm.util.Util.id;
 
 /**
  * Created by someone on 15-Jul-2015.

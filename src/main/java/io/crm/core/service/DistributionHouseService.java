@@ -1,14 +1,11 @@
 package io.crm.core.service;
 
-import io.crm.FailureCode;
+import io.crm.Events;
 import io.crm.core.App;
-import io.crm.core.Events;
 import io.crm.core.model.House;
 import io.crm.core.model.Location;
 import io.crm.core.model.Query;
-import io.crm.intfs.ConsumerInterface;
 import io.crm.mc;
-import io.crm.util.ErrorBuilder;
 import io.crm.util.TaskCoordinator;
 import io.crm.util.TaskCoordinatorBuilder;
 import io.crm.util.Util;
@@ -22,9 +19,6 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.List;
-
-import static io.crm.core.model.Query.id;
-import static io.crm.util.ExceptionUtil.withReply;
 
 /**
  * Created by someone on 20/08/2015.

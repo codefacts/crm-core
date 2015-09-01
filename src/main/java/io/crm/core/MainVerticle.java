@@ -2,6 +2,7 @@ package io.crm.core;
 
 import com.mongodb.MongoException;
 import com.mongodb.MongoWriteException;
+import io.crm.Events;
 import io.crm.IndexTouple;
 import io.crm.Indexes;
 import io.crm.core.model.EmployeeType;

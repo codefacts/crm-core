@@ -41,7 +41,7 @@ public class MainVerticle extends AbstractVerticle {
 
     @Override
     public void start(Future<Void> startFuture) throws Exception {
-        System.out.println("--------------Strating verticle");
+        System.out.println("--------------CORE: Strating verticle");
         this.startFuture = startFuture;
 
         final JsonObject config = new JsonObject(loadConfig());
@@ -61,8 +61,6 @@ public class MainVerticle extends AbstractVerticle {
 
             onDbInialized();
         });
-
-        System.out.println("--------------Verticle complete");
     }
 
     private void onFail(Throwable throwable) {
@@ -284,7 +282,7 @@ public class MainVerticle extends AbstractVerticle {
     private void onComplete() {
         startFuture.complete();
         startFuture = null;
-        System.out.println("<-------------------COMPLETE-------------------->");
+        System.out.println("<-------------------CORE COMPLETE-------------------->");
     }
 
     @Override

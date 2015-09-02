@@ -69,14 +69,13 @@ final public class App {
     }
 
     public static void main(String... args) {
-        Vertx.clusteredVertx(new VertxOptions().setEventLoopPoolSize(1), new Handler<AsyncResult<Vertx>>() {
+        Vertx.clusteredVertx(new VertxOptions(), new Handler<AsyncResult<Vertx>>() {
 
             @Override
             public void handle(AsyncResult<Vertx> e) {
                 if (e.succeeded()) {
                     System.out.println("VERTEX CLUSTER STARTED");
-                    e.result().deployVerticle(new MainVerticle(), new DeploymentOptions()
-                            .setInstances(1));
+                    e.result().deployVerticle(new MainVerticle());
                 } else {
                     System.out.println("ERROR STARTING VERTEX CLUSTER");
                 }

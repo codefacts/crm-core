@@ -280,7 +280,7 @@ public class MainVerticle extends AbstractVerticle {
     }
 
     private void onComplete() {
-        startFuture.complete();
+        if (startFuture != null) startFuture.complete();
         startFuture = null;
         System.out.println("<-------------------CORE COMPLETE-------------------->");
     }

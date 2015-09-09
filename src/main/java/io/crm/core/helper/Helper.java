@@ -3,10 +3,13 @@ package io.crm.core.helper;
 import io.crm.core.model.EmployeeType;
 import io.crm.core.model.Query;
 import io.crm.core.model.User;
+import io.crm.util.ErrorBuilder;
 import io.vertx.core.json.JsonObject;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static io.crm.util.Util.parseMongoDate;
 
 /**
  * Created by someone on 13-Aug-2015.
@@ -30,5 +33,17 @@ public class Helper {
 
     public static EmployeeType employeeType(final JsonObject user) {
         return employeeTypeMap().get(user.getJsonObject(User.userType).getLong(Query.id));
+    }
+
+    public static boolean checkRequired(ErrorBuilder errorBuilder, Object val, String fieldName, String message) {
+        final boolean isNull = val == null;
+        if (isNull) errorBuilder.put(fieldName, message);
+        return isNull;
+    }
+
+    public static boolean validateDateFormat(ErrorBuilder errorBuilder, String date, String fieldName, String errorMessage) {
+        final boolean isInvalid = parseMongoDate(date, null) == null;
+        if (isInvalid) errorBuilder.put(fieldName, errorMessage);
+        return isInvalid;
     }
 }

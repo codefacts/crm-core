@@ -6,6 +6,7 @@
 
     <groupId>io.crm</groupId>
     <artifactId>core</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -44,6 +45,12 @@
         </dependency>
 
         <dependency>
+            <groupId>com.campudus</groupId>
+            <artifactId>json-schema-validator_2.10</artifactId>
+            <version>1.2.0</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
             <version>4.2.0.RELEASE</version>
@@ -77,6 +84,12 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-io</artifactId>
             <version>1.3.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>18.0</version>
         </dependency>
 
         <dependency>

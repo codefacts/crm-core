@@ -1,24 +1,27 @@
 package io.crm.core.service;
 
+import io.crm.Events;
 import io.crm.FailureCode;
 import io.crm.core.App;
+import io.crm.core.Resp;
+import io.crm.core.model.Campaign;
 import io.crm.core.model.Query;
-import io.crm.intfs.ConsumerInterface;
+import io.crm.intfs.*;
 import io.crm.mc;
 import io.crm.util.*;
+import io.vertx.core.AsyncResultHandler;
+import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.mongo.MongoClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import static io.crm.core.model.Query.brand;
 import static io.crm.core.model.Query.id;
-import static io.crm.util.ExceptionUtil.fail;
-import static io.crm.util.ExceptionUtil.logException;
 import static io.crm.util.ExceptionUtil.withReply;
-import static io.crm.util.Util.id;
-import static io.crm.util.Util.isEmptyOrNull;
-import static io.crm.util.Util.trim;
+import static io.crm.util.ExceptionUtil.withReplyRun;
+import static io.crm.util.Util.*;
 
 /**
  * Created by someone on 19/08/2015.
@@ -122,7 +125,7 @@ public class DbService {
             taskCoordinator.countdown();
         }
 
-        if (isEmptyOrNull(objName)) {
+        if (isEmptyOrNullOrSpaces(objName)) {
             errorBuilder.put(Query.name, String.format("%s Name is required.", collection.label));
             taskCoordinator.countdown();
         } else {
@@ -163,7 +166,7 @@ public class DbService {
             return;
         }
 
-        if (isEmptyOrNull(objName)) {
+        if (isEmptyOrNullOrSpaces(objName)) {
             errorBuilder.put(Query.name, String.format("%s Name is required.", collection));
             taskCoordinator.countdown();
         } else {
@@ -199,7 +202,7 @@ public class DbService {
                 .message(message)
                 .get();
 
-        final Long parentId = id(obj.getValue(parentField));
+        final Long parentId = Util.id(obj.getValue(parentField));
 
         if (parentId == null || parentId <= 0) {
             errorBuilder.put(parentIdField, parentLabel + " ID is required.");
@@ -218,4 +221,35 @@ public class DbService {
         }
     }
 
+    public void validateBrandId(final Long brandId, final ConsumerInterface<JsonObject> consumer, final Message message) {
+        app.getMongoClient().findOne(mc.brands.name(), new JsonObject().put(Query.id, brandId),
+                new JsonObject().put(Query.id, true), rr -> {
+
+                    if (rr.failed()) {
+                        ExceptionUtil.fail(message, rr.cause());
+                        return;
+                    }
+
+                    withReplyRun(() -> consumer.accept(rr.result() == null ? null :
+                            new JsonObject()
+                                    .put(Query.message, "Brand ID is invalid.")
+                                    .put(Query.required, true)), message);
+                });
+    }
+
+    public static void main(String... args) throws Exception {
+        ErrorBuilder errorBuilder = new ErrorBuilder();
+
+        final MongoClient mongoClient = MongoClient.createShared(Vertx.vertx(), new JsonObject().put("db_name", "phase_0"));
+        mongoClient.findOne(mc.brands.name(), new JsonObject().put(Query.id, 2),
+                new JsonObject().put(Query.id, true), rr -> {
+
+                    if (rr.failed()) {
+                        throw new RuntimeException(rr.cause());
+                    }
+                    System.out.println("result: >>> " + rr.result());
+                });
+
+        System.in.read();
+    }
 }

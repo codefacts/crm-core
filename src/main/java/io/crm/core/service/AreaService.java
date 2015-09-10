@@ -1,9 +1,9 @@
 package io.crm.core.service;
 
 import io.crm.Events;
+import io.crm.QC;
 import io.crm.core.App;
 import io.crm.mc;
-import io.crm.core.model.Query;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +16,9 @@ import org.springframework.stereotype.Component;
 public class AreaService {
     final mc collection = mc.areas;
     final mc parent = mc.regions;
-    final String parentField = Query.region;
+    final String parentField = QC.region;
     final String parentLabel = parent.label;
-    final String parentIdField = Query.regionId;
+    final String parentIdField = QC.regionId;
     final String ON_CREATE_MESSAGE = Events.NEW_AREA_CREATED;
     final String ON_UPDATE_MESSAGE = Events.AREA_UPDATED;
     final String NAME_CAPITALIZED = "AREA";

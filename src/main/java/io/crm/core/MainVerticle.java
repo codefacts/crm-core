@@ -1,15 +1,9 @@
 package io.crm.core;
 
-import com.mongodb.MongoException;
 import com.mongodb.MongoWriteException;
-import io.crm.Events;
-import io.crm.IndexTouple;
-import io.crm.Indexes;
-import io.crm.core.model.EmployeeType;
-import io.crm.core.model.Query;
+import io.crm.*;
+import io.crm.model.EmployeeType;
 import io.crm.core.service.*;
-import io.crm.mc;
-import io.crm.util.AsyncUtil;
 import io.crm.util.TaskCoordinator;
 import io.crm.util.TaskCoordinatorBuilder;
 import io.vertx.core.*;
@@ -27,7 +21,7 @@ import java.io.InputStream;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static io.crm.core.model.Query.*;
+import static io.crm.QC.*;
 import static io.crm.util.AsyncUtil.fail;
 import static io.crm.util.AsyncUtil.success;
 
@@ -195,7 +189,7 @@ public class MainVerticle extends AbstractVerticle {
                 app.getMongoClient().runCommand(mm.createIndexes,
                         new JsonObject()
                                 .put(mm.createIndexes, index.collection)
-                                .put(Query.indexes, new JsonArray()
+                                .put(QC.indexes, new JsonArray()
                                         .add(new JsonObject()
                                                 .put(key, keys(index.kyes))
                                                 .put(name, index.name())

@@ -1,15 +1,11 @@
 package io.crm.core.service;
 
-import io.crm.Events;
 import io.crm.FailureCode;
+import io.crm.QC;
 import io.crm.core.App;
-import io.crm.core.Resp;
-import io.crm.core.model.Campaign;
-import io.crm.core.model.Query;
 import io.crm.intfs.*;
 import io.crm.mc;
 import io.crm.util.*;
-import io.vertx.core.AsyncResultHandler;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonObject;
@@ -17,8 +13,8 @@ import io.vertx.ext.mongo.MongoClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import static io.crm.core.model.Query.brand;
-import static io.crm.core.model.Query.id;
+import static io.crm.QC.brand;
+import static io.crm.QC.id;
 import static io.crm.util.ExceptionUtil.withReply;
 import static io.crm.util.ExceptionUtil.withReplyRun;
 import static io.crm.util.Util.*;
@@ -106,10 +102,10 @@ public class DbService {
                 .message(message)
                 .get();
 
-        final String objName = trim(obj.getString(Query.name));
+        final String objName = trim(obj.getString(QC.name));
         final Long objId = obj.getLong(id);
         if (obj == null) {
-            errorBuilder.put(Query.__self, "No data is given. Value is null.");
+            errorBuilder.put(QC.__self, "No data is given. Value is null.");
             taskCoordinator.finish();
             return;
         }
@@ -117,7 +113,7 @@ public class DbService {
         if (objId != null && objId > 0) {
             app.getMongoClient().findOne(collection + "", new JsonObject().put(id, objId), null, taskCoordinator.add(json -> {
                 if (json != null) {
-                    errorBuilder.put(Query.id, String.format("The ID %d already exists. Please give a valid ID.", objId));
+                    errorBuilder.put(QC.id, String.format("The ID %d already exists. Please give a valid ID.", objId));
                     return;
                 }
             }));
@@ -126,14 +122,14 @@ public class DbService {
         }
 
         if (isEmptyOrNullOrSpaces(objName)) {
-            errorBuilder.put(Query.name, String.format("%s Name is required.", collection.label));
+            errorBuilder.put(QC.name, String.format("%s Name is required.", collection.label));
             taskCoordinator.countdown();
         } else {
-            app.getMongoClient().findOne(collection + "", new JsonObject().put(Query.name, objName),
+            app.getMongoClient().findOne(collection + "", new JsonObject().put(QC.name, objName),
                     new JsonObject(), taskCoordinator.add(json -> {
 
                         if (json != null) {
-                            errorBuilder.put(Query.name, String.format("Name %s already exists. Please give a unique name.", objName));
+                            errorBuilder.put(QC.name, String.format("Name %s already exists. Please give a unique name.", objName));
                             return;
                         }
 
@@ -158,25 +154,25 @@ public class DbService {
                 .message(message)
                 .get();
 
-        final String objName = trim(obj.getString(Query.name));
+        final String objName = trim(obj.getString(QC.name));
         final Long objId = obj.getLong(id);
         if (obj == null || objId <= 0) {
-            errorBuilder.put(Query.id, String.format("%d ID is required.", collection.label));
+            errorBuilder.put(QC.id, String.format("%d ID is required.", collection.label));
             taskCoordinator.finish();
             return;
         }
 
         if (isEmptyOrNullOrSpaces(objName)) {
-            errorBuilder.put(Query.name, String.format("%s Name is required.", collection));
+            errorBuilder.put(QC.name, String.format("%s Name is required.", collection));
             taskCoordinator.countdown();
         } else {
-            app.getMongoClient().findOne(collection + "", new JsonObject().put(Query.name, objName),
+            app.getMongoClient().findOne(collection + "", new JsonObject().put(QC.name, objName),
                     new JsonObject(), taskCoordinator.add(json -> {
 
                         if (json != null) {
                             final Long objId2 = json.getLong(id);
                             if (!objId2.equals(objId)) {
-                                errorBuilder.put(Query.name, String.format("Name %s already exists. Please give a unique name.", objName));
+                                errorBuilder.put(QC.name, String.format("Name %s already exists. Please give a unique name.", objName));
                                 return;
                             }
                         }
@@ -208,7 +204,7 @@ public class DbService {
             errorBuilder.put(parentIdField, parentLabel + " ID is required.");
             taskCoordinator.countdown();
         } else {
-            app.getMongoClient().findOne(parent + "", new JsonObject().put(Query.id, parentId),
+            app.getMongoClient().findOne(parent + "", new JsonObject().put(QC.id, parentId),
                     new JsonObject(), taskCoordinator.add(json -> {
 
                         if (json == null) {
@@ -222,8 +218,8 @@ public class DbService {
     }
 
     public void validateBrandId(final Long brandId, final ConsumerInterface<JsonObject> consumer, final Message message) {
-        app.getMongoClient().findOne(mc.brands.name(), new JsonObject().put(Query.id, brandId),
-                new JsonObject().put(Query.id, true), rr -> {
+        app.getMongoClient().findOne(mc.brands.name(), new JsonObject().put(QC.id, brandId),
+                new JsonObject().put(QC.id, true), rr -> {
 
                     if (rr.failed()) {
                         ExceptionUtil.fail(message, rr.cause());
@@ -232,8 +228,8 @@ public class DbService {
 
                     withReplyRun(() -> consumer.accept(rr.result() == null ? null :
                             new JsonObject()
-                                    .put(Query.message, "Brand ID is invalid.")
-                                    .put(Query.required, true)), message);
+                                    .put(QC.message, "Brand ID is invalid.")
+                                    .put(QC.required, true)), message);
                 });
     }
 
@@ -241,8 +237,8 @@ public class DbService {
         ErrorBuilder errorBuilder = new ErrorBuilder();
 
         final MongoClient mongoClient = MongoClient.createShared(Vertx.vertx(), new JsonObject().put("db_name", "phase_0"));
-        mongoClient.findOne(mc.brands.name(), new JsonObject().put(Query.id, 2),
-                new JsonObject().put(Query.id, true), rr -> {
+        mongoClient.findOne(mc.brands.name(), new JsonObject().put(QC.id, 2),
+                new JsonObject().put(QC.id, true), rr -> {
 
                     if (rr.failed()) {
                         throw new RuntimeException(rr.cause());

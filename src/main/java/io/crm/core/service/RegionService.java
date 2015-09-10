@@ -9,7 +9,7 @@ import io.vertx.core.json.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import static io.crm.core.model.Query.id;
+import static io.crm.QC.id;
 import static io.crm.util.ExceptionUtil.withReply;
 
 @Component

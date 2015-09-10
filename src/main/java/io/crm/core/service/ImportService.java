@@ -5,7 +5,7 @@ import io.crm.core.exceptions.ValidationException;
 import io.crm.core.helper.Helper;
 import io.crm.mc;
 import io.crm.core.mm;
-import io.crm.core.model.*;
+import io.crm.model.*;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import org.apache.commons.io.IOUtils;
@@ -18,9 +18,9 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static io.crm.core.model.Query.id;
-import static io.crm.core.model.Region.*;
-import static io.crm.core.model.Region.name;
+import static io.crm.QC.id;
+import static io.crm.model.Region.*;
+import static io.crm.model.Region.name;
 import static io.crm.util.ExceptionUtil.*;
 import static io.crm.util.Util.*;
 

@@ -1,11 +1,11 @@
 package io.crm.core.service;
 
-import io.crm.core.model.Query;
-import io.crm.core.model.UserType;
+import io.crm.QC;
+import io.crm.model.UserType;
 import io.crm.core.App;
 import io.crm.mc;
 import io.crm.core.exceptions.ValidationException;
-import io.crm.core.model.User;
+import io.crm.model.User;
 import io.crm.util.ExceptionUtil;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.AsyncResultHandler;
@@ -33,8 +33,8 @@ public class UserService {
 
     public void create(JsonObject user, Message message, String newUserId, UserType userType, AsyncResultHandler<String> handler) {
         Date date = new Date();
-        user.put(Query.createDate, date);
-        user.put(Query.modifyDate, date);
+        user.put(QC.createDate, date);
+        user.put(QC.modifyDate, date);
 
         validate(user, new AsyncResultHandler<JsonObject>() {
             @Override

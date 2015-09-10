@@ -1,8 +1,8 @@
 package io.crm.core.helper;
 
-import io.crm.core.model.EmployeeType;
-import io.crm.core.model.Query;
-import io.crm.core.model.User;
+import io.crm.QC;
+import io.crm.model.EmployeeType;
+import io.crm.model.User;
 import io.crm.util.ErrorBuilder;
 import io.vertx.core.json.JsonObject;
 
@@ -32,7 +32,7 @@ public class Helper {
     }
 
     public static EmployeeType employeeType(final JsonObject user) {
-        return employeeTypeMap().get(user.getJsonObject(User.userType).getLong(Query.id));
+        return employeeTypeMap().get(user.getJsonObject(User.userType).getLong(QC.id));
     }
 
     public static boolean checkRequired(ErrorBuilder errorBuilder, Object val, String fieldName, String message) {

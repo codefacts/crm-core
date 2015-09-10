@@ -1,8 +1,8 @@
 package io.crm.core.service;
 
 import io.crm.Events;
+import io.crm.QC;
 import io.crm.core.App;
-import io.crm.core.model.Query;
 import io.crm.mc;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonObject;
@@ -16,9 +16,9 @@ import org.springframework.stereotype.Component;
 public class LocationService {
     final mc collection = mc.locations;
     final mc parent = mc.distribution_houses;
-    final String parentField = Query.distributionHouse;
+    final String parentField = QC.distributionHouse;
     final String parentLabel = parent.label;
-    final String parentIdField = Query.distributionHouseId;
+    final String parentIdField = QC.distributionHouseId;
     final String ON_CREATE_MESSAGE = Events.NEW_LOCATION_CREATED;
     final String ON_UPDATE_MESSAGE = Events.LOCATION_UPDATED;
     final String NAME_CAPITALIZED = "LOCATION";

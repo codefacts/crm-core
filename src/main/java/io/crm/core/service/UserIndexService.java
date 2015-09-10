@@ -1,6 +1,7 @@
 package io.crm.core.service;
 
-import io.crm.core.model.*;
+import io.crm.QC;
+import io.crm.model.*;
 import io.crm.core.App;
 import io.vertx.core.AsyncResultHandler;
 import io.vertx.core.json.JsonObject;
@@ -25,7 +26,7 @@ public class UserIndexService {
     }
 
     public static void update(App app, String index_id, String newUserId, String admin_id, UserType userType, AsyncResultHandler<String> asyncResultHandler) {
-        JsonObject index = new JsonObject().put(Query.id, index_id)
+        JsonObject index = new JsonObject().put(QC.id, index_id)
                 .put(UserIndex.userType, userType)
                 .put(UserIndex.userId, newUserId)
                 .put(UserIndex.actualId, admin_id);

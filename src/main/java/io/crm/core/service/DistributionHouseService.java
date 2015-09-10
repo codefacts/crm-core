@@ -1,10 +1,10 @@
 package io.crm.core.service;
 
 import io.crm.Events;
+import io.crm.QC;
 import io.crm.core.App;
-import io.crm.core.model.House;
-import io.crm.core.model.Location;
-import io.crm.core.model.Query;
+import io.crm.model.House;
+import io.crm.model.Location;
 import io.crm.mc;
 import io.crm.util.TaskCoordinator;
 import io.crm.util.TaskCoordinatorBuilder;
@@ -27,9 +27,9 @@ import java.util.List;
 public class DistributionHouseService {
     final mc collection = mc.distribution_houses;
     final mc parent = mc.areas;
-    final String parentField = Query.area;
+    final String parentField = QC.area;
     final String parentLabel = parent.label;
-    final String parentIdField = Query.areaId;
+    final String parentIdField = QC.areaId;
     final String ON_CREATE_MESSAGE = Events.NEW_HOUSE_CREATED;
     final String ON_UPDATE_MESSAGE = Events.HOUSE_UPDATED;
     final String NAME_CAPITALIZED = "DISTRIBUTION HOUSE";
@@ -63,9 +63,9 @@ public class DistributionHouseService {
 
             list.forEach(j -> {
                 j.remove(Location.distributionHouse);
-                app.getMongoClient().update(mc.distribution_houses.name(), new JsonObject().put(Query.id, j.getLong(Query.id, 0L)),
+                app.getMongoClient().update(mc.distribution_houses.name(), new JsonObject().put(QC.id, j.getLong(QC.id, 0L)),
                         Util.updateObject(new JsonObject().put(House.locations, new JsonArray().add(j))), taskCoordinator.add(rr -> {
-                            System.out.println("COMPLETE: " + j.getString(Query.name) + " RESP: " + rr);
+                            System.out.println("COMPLETE: " + j.getString(QC.name) + " RESP: " + rr);
                         }));
             });
         });

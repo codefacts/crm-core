@@ -4,6 +4,7 @@ import com.mongodb.MongoWriteException;
 import io.crm.*;
 import io.crm.model.EmployeeType;
 import io.crm.core.service.*;
+import io.crm.util.AsyncUtil;
 import io.crm.util.TaskCoordinator;
 import io.crm.util.TaskCoordinatorBuilder;
 import io.vertx.core.*;
@@ -38,22 +39,39 @@ public class MainVerticle extends AbstractVerticle {
         System.out.println("--------------CORE: Strating verticle");
         this.startFuture = startFuture;
 
-        final JsonObject config = new JsonObject(loadConfig());
-        final MongoClient mongoClient = MongoClient.createShared(getVertx(), config);
-        final AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext("io.crm.core", "io.crm.core.service", "io.crm.core.codec");
-        context.start();
-
-        app = context.getBean(App.class);
-
-        app.initialize(getVertx().eventBus(), getVertx(), mongoClient, config, context);
-
-        createAndInitDb(r -> {
-            if (r.failed()) {
-                onFail(r.cause());
+        beforeStart(rt -> {
+            if (rt.failed()) {
+                startFuture.fail(rt.cause());
                 return;
             }
 
-            onDbInialized();
+            final JsonObject config = new JsonObject(loadConfig());
+            final MongoClient mongoClient = MongoClient.createShared(getVertx(), config);
+            final AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext("io.crm.core", "io.crm.core.service", "io.crm.core.codec");
+            context.start();
+
+            app = context.getBean(App.class);
+
+            app.initialize(getVertx().eventBus(), getVertx(), mongoClient, config, context);
+
+            createAndInitDb(r -> {
+                if (r.failed()) {
+                    onFail(r.cause());
+                    return;
+                }
+
+                onDbInialized();
+            });
+        });
+    }
+
+    private void beforeStart(final Handler<AsyncResult> handler) {
+        vertx.deployVerticle(io.crm.schema.validation.MainVerticle.class.getName(), r -> {
+            if (r.failed()) {
+                handler.handle(AsyncUtil.fail(r.cause()));
+                return;
+            }
+            handler.handle(AsyncUtil.success());
         });
     }
 

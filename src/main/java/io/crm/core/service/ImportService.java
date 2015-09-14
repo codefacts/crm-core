@@ -444,11 +444,11 @@ public class ImportService {
 
     private JsonObject consumer(JsonObject json) {
         return new JsonObject()
-                .put(Contact.name, json.getString("Customer_Name"))
-                .put(Contact.mobile, json.getString("CONSUMER_MOBILE"))
-                .put(Contact.fatherName, json.getString("FATHER_NAME"))
-                .put(Contact.age, json.getInteger("Age"))
-                .put(Contact.occupation, json.getString("Occupation"));
+                .put(Consumer.name, json.getString("Customer_Name"))
+                .put(Consumer.mobile, json.getString("CONSUMER_MOBILE"))
+                .put(Consumer.fatherName, json.getString("FATHER_NAME"))
+                .put(Consumer.age, json.getInteger("Age"))
+                .put(Consumer.occupation, json.getString("Occupation"));
     }
 
     private JsonObject userTypeObj(EmployeeType employeeType) {

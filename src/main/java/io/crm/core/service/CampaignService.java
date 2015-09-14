@@ -7,6 +7,8 @@ import io.crm.model.Campaign;
 import io.crm.model.User;
 import io.crm.mc;
 import io.crm.util.ErrorBuilder;
+import io.crm.util.TaskCoordinator;
+import io.crm.util.TaskCoordinatorBuilder;
 import io.crm.util.Util;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonArray;
@@ -18,6 +20,7 @@ import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
+import static io.crm.QC.tree;
 import static io.crm.core.helper.Helper.checkRequired;
 import static io.crm.core.helper.Helper.validateDateFormat;
 import static io.crm.QC.id;
@@ -69,8 +72,8 @@ public class CampaignService {
                 validateDateFormat(errorBuilder, salaryStartDate, "salaryStartDate", "Salary Start Date is invalid.");
                 validateDateFormat(errorBuilder, salaryEndDate, "salaryEndDate", "Salary End Date is invalid.");
 
-                validateTree(campaign.getJsonObject(QC.tree, new JsonObject()), (tree, eb) -> {
-
+                validateTree(campaign.getJsonArray(QC.tree, new JsonArray()), (tree, eb) -> {
+                    app.getBus().send(Events.VALIDATE_CAMPAIGN, campaign);
                 }, message);
 
 //                app.getMongoClient().insert(campaigns + "", campaign.put(id, campaigns.getNextId())
@@ -87,15 +90,23 @@ public class CampaignService {
         }, campaigns, message);
     }
 
-    private void validateTree(final JsonObject tree, final BiConsumer<JsonObject, ErrorBuilder> biConsumer, final Message message) {
+    private void validateTree(final JsonArray tree, final BiConsumer<JsonArray, ErrorBuilder> biConsumer, final Message message) {
         final ErrorBuilder errorBuilder = new ErrorBuilder();
-        final List<JsonObject> regionList = tree.getMap().values().stream().map(v -> toJsonObject(v)).collect(Collectors.toList());
+        final List<JsonObject> regionList = tree.stream().map(v -> toJsonObject(v)).collect(Collectors.toList());
+
+        final TaskCoordinator taskCoordinator = new TaskCoordinatorBuilder()
+                .count(7)
+                .onSuccess(() -> {
+                    biConsumer.accept(tree, errorBuilder);
+                })
+                .message(message)
+                .get();
 
         app.getMongoClient().find(mc.regions.name(),
                 new JsonObject()
                         .put(QC.id, new JsonObject()
                                 .put(QC.$in, regionList.stream().map(v -> v.getLong(QC.id)).collect(Collectors.toList()))),
-                withReply(rList -> {
+                taskCoordinator.add(rList -> {
 
                     if (rList.size() < regionList.size()) {
                         final Set<Long> rListIdSet = idSet(rList);
@@ -103,13 +114,13 @@ public class CampaignService {
                         return;
                     }
 
-                    final Map<Long, JsonObject> areaList = collect(regionList, mc.areas.name());
+                    final Map<Long, JsonObject> areaList = collect(regionList, mc.areas.name(), QC.region);
 
                     app.getMongoClient().find(mc.areas.name(),
                             new JsonObject()
                                     .put(QC.id, new JsonObject()
                                             .put(QC.$in, new JsonArray(areaList.values().stream().map(v -> v.getLong(QC.id)).collect(Collectors.toList())))),
-                            withReply(aList -> {
+                            taskCoordinator.add(aList -> {
                                 if (aList.size() < areaList.size()) {
                                     final Set<Long> aListIdSet = idSet(aList);
                                     putInErrorBuilder(errorBuilder, areaList.values(), aListIdSet, QC.areaId, "Areas");
@@ -118,13 +129,13 @@ public class CampaignService {
 
                                 checkParent(aList, areaList, errorBuilder, QC.region, QC.area, QC.areaRegionId);
 
-                                Map<Long, JsonObject> houseList = collect(areaList.values(), mc.distribution_houses.name());
+                                Map<Long, JsonObject> houseList = collect(areaList.values(), mc.distribution_houses.name(), QC.area);
 
                                 app.getMongoClient().find(mc.distribution_houses.name(),
                                         new JsonObject()
                                                 .put(QC.id, new JsonObject()
                                                         .put(QC.$in, new JsonArray(houseList.values().stream().map(v -> v.getLong(QC.id)).collect(Collectors.toList())))),
-                                        withReply(hList -> {
+                                        taskCoordinator.add(hList -> {
 
                                             if (hList.size() < houseList.size()) {
                                                 final Set<Long> hListIdSet = idSet(hList);
@@ -134,12 +145,12 @@ public class CampaignService {
 
                                             checkParent(hList, houseList, errorBuilder, QC.area, QC.distributionHouse, QC.distributionHouseAreaId);
 
-                                            final Map<Long, JsonObject> locationList = collect(houseList.values(), mc.locations.name());
+                                            final Map<Long, JsonObject> locationList = collect(houseList.values(), mc.locations.name(), QC.distributionHouse);
 
                                             app.getMongoClient().find(mc.locations.name(), new JsonObject()
                                                             .put(QC.id, new JsonObject()
                                                                     .put(QC.$in, new JsonArray(locationList.values().stream().map(v -> v.getLong(QC.id)).collect(Collectors.toList())))),
-                                                    withReply(lList -> {
+                                                    taskCoordinator.add(lList -> {
                                                         if (lList.size() < locationList.size()) {
                                                             final Set<Long> lListIdSet = idSet(lList);
                                                             putInErrorBuilder(errorBuilder, locationList.values(), lListIdSet, QC.locationId, "Locations");
@@ -147,9 +158,9 @@ public class CampaignService {
                                                         }
 
                                                         checkParent(lList, locationList, errorBuilder, QC.distributionHouse, QC.location, QC.locationDistributionHouseId);
-                                                    }, message));
+                                                    }));
 
-                                            final Map<String, JsonObject> brList = collectUser(houseList.values(), QC.brs);
+                                            final Map<String, JsonObject> brList = collectUser(houseList.values(), QC.brs, QC.distributionHouse);
 
                                             app.getMongoClient().find(mc.employees.name(), new JsonObject()
                                                             .put(QC.userId, new JsonObject()
@@ -157,7 +168,7 @@ public class CampaignService {
                                                                             brList.values().stream()
                                                                                     .map(v -> v.getString(QC.userId))
                                                                                     .collect(Collectors.toList())))),
-                                                    withReply(bList -> {
+                                                    taskCoordinator.add(bList -> {
                                                         if (bList.size() < brList.size()) {
                                                             final Set<String> bListIdSet = userIdSet(bList);
                                                             putInErrorBuilderForUser(errorBuilder, brList.values(), bListIdSet, QC.brId, "BRS");
@@ -165,16 +176,16 @@ public class CampaignService {
                                                         }
 
                                                         checkParentForUser(bList, brList, errorBuilder, QC.distributionHouse, QC.br, QC.brDistributionHouseId);
-                                                    }, message));
+                                                    }));
 
-                                            final Map<String, JsonObject> brSupervisorList = collectUser(houseList.values(), QC.brSupervisors);
+                                            final Map<String, JsonObject> brSupervisorList = collectUser(houseList.values(), QC.brSupervisors, QC.distributionHouse);
 
                                             app.getMongoClient().find(mc.employees.name(), new JsonObject()
                                                             .put(QC.userId, new JsonObject().put(QC.$in, new JsonArray(
                                                                     brSupervisorList.values().stream()
                                                                             .map(v -> v.getString(QC.userId))
                                                                             .collect(Collectors.toList())))),
-                                                    withReply(supList -> {
+                                                    taskCoordinator.add(supList -> {
                                                         if (supList.size() < brSupervisorList.size()) {
                                                             final Set<String> supListIdSet = userIdSet(supList);
                                                             putInErrorBuilderForUser(errorBuilder, brSupervisorList.values(), supListIdSet, QC.brSupervisorId, "BR Supervisors");
@@ -182,71 +193,108 @@ public class CampaignService {
                                                         }
 
                                                         checkParentForUser(supList, brSupervisorList, errorBuilder, QC.distributionHouse, QC.brSupervisor, QC.brSupervisorDistributionHouseId);
-                                                    }, message));
-                                        }, message));
+                                                    }));
+                                        }));
 
 
-                                final Map<String, JsonObject> areaCoordinatorList = collectUser(areaList.values(), QC.areaCoordinators);
+                                final Map<String, JsonObject> areaCoordinatorList = collectUser(areaList.values(), QC.areaCoordinators, QC.area);
 
-                                app.getMongoClient().find(mc.employees.name(), new JsonObject(), withReply(acList -> {
-                                    if (acList.size() < areaCoordinatorList.size()) {
-                                        final Set<String> acListIdSet = userIdSet(acList);
-                                        putInErrorBuilderForUser(errorBuilder, areaCoordinatorList.values(), acListIdSet, QC.areaCoordinatorId, "Area Coordinators");
-                                        return;
-                                    }
+                                app.getMongoClient().find(mc.employees.name(), new JsonObject()
+                                                .put(QC.userId, new JsonObject().put(QC.$in, new JsonArray(
+                                                        areaCoordinatorList.values().stream()
+                                                                .map(v -> v.getString(QC.userId))
+                                                                .collect(Collectors.toList())))),
+                                        taskCoordinator.add(acList -> {
+                                            if (acList.size() < areaCoordinatorList.size()) {
+                                                final Set<String> acListIdSet = userIdSet(acList);
+                                                putInErrorBuilderForUser(errorBuilder, areaCoordinatorList.values(), acListIdSet, QC.areaCoordinatorId, "Area Coordinators");
+                                                return;
+                                            }
 
-                                    checkParentForUser(acList, areaCoordinatorList, errorBuilder, QC.area, QC.areaCoordinator, QC.areaCoordinatorAreaId);
-                                }, message));
-                            }, message));
-                }, message));
+                                            checkParentForUser(acList, areaCoordinatorList, errorBuilder, QC.area, QC.areaCoordinator, QC.areaCoordinatorAreaId);
+                                        }));
+                            }));
+                }));
     }
 
     private void checkParentForUser(final List<JsonObject> aList, final Map<String, JsonObject> areaList, final ErrorBuilder errorBuilder, final String parent, final String child, final String errorField) {
-        aList.forEach(user -> {
-            if (!user.getJsonObject(parent).getString(QC.userId).equals(areaList.get(user.getString(QC.userId)).getJsonObject(parent).getString(QC.userId))) {
-                errorBuilder.put(errorField, String.format("The " + parent + " ID %d for " + child + " id %d is incorrect.",
-                        areaList.get(user.getString(QC.userId)).getJsonObject(parent).getString(QC.userId), user.getString(QC.userId)));
-            }
-        });
+        try {
+            aList.forEach(user -> {
+                if (!user.getJsonObject(parent).getLong(QC.id).equals(
+                        areaList.get(user.getString(QC.userId))
+                                .getJsonObject(parent).getLong(QC.id))) {
+                    errorBuilder.put(errorField, String.format("The " + parent + " ID %d for " + child + " id %d is incorrect.",
+                            areaList.get(user.getString(QC.userId))
+                                    .getJsonObject(parent).getLong(QC.id), user.getString(QC.userId)));
+                }
+            });
+        } catch (NullPointerException ex) {
+            ex.printStackTrace();
+        }
     }
 
     private void checkParent(final List<JsonObject> aList, final Map<Long, JsonObject> areaList, final ErrorBuilder errorBuilder, final String parent, final String child, final String field) {
-        aList.forEach(area -> {
-            if (!area.getJsonObject(parent).getLong(QC.id).equals(areaList.get(area.getLong(QC.id)).getJsonObject(parent).getLong(QC.id))) {
-                errorBuilder.put(field, String.format("The " + parent + " ID %d for " + child + " id %d is incorrect.",
-                        areaList.get(area.getLong(QC.id)).getJsonObject(parent).getLong(QC.id), area.getLong(QC.id)));
-            }
-        });
+        try {
+            aList.forEach(area -> {
+                if (!area.getJsonObject(parent).getLong(QC.id).equals(
+                        areaList.get(area.getLong(QC.id))
+                                .getJsonObject(parent).getLong(QC.id))) {
+                    errorBuilder.put(field, String.format("The " + parent + " ID %d for " + child + " id %d is incorrect.",
+                            areaList.get(area.getLong(QC.id)).getJsonObject(parent).getLong(QC.id), area.getLong(QC.id)));
+                }
+            });
+        } catch (NullPointerException ex) {
+            ex.printStackTrace();
+        }
     }
 
     private Set<String> userIdSet(List<JsonObject> supList) {
         return supList.stream().map(v -> v.getString(User.userId)).collect(Collectors.toSet());
     }
 
-    private Map<String, JsonObject> collectUser(final Collection<JsonObject> regionList, final String field) {
-        return regionList
-                .stream()
-                .map(v -> v.getJsonObject(field).getMap().values())
-                .flatMap(Collection::stream).map(v -> toJsonObject(v)).collect(Collectors.toMap(v -> v.getString(QC.userId), v -> v));
+    private Map<String, JsonObject> collectUser(final Collection<JsonObject> regionList, final String field, final String parentField) {
+        Map<String, JsonObject> map = new HashMap<>();
+        regionList.forEach(v -> {
+            v.getJsonArray(field, new JsonArray()).forEach(a -> {
+                final JsonObject jsonObject = toJsonObject(a);
+                map.put(jsonObject.getString(QC.userId), jsonObject.put(parentField,
+                        new JsonObject()
+                                .put(QC.id, v.getLong(QC.id))));
+            });
+        });
+        return map;
     }
 
-    private Map<Long, JsonObject> collect(final Collection<JsonObject> regionList, final String field) {
-        return regionList
-                .stream()
-                .map(v -> v.getJsonObject(field).getMap().values())
-                .flatMap(Collection::stream).map(v -> toJsonObject(v)).collect(Collectors.toMap(v -> v.getLong(QC.id), v -> v));
+    private Map<Long, JsonObject> collect(final Collection<JsonObject> regionList, final String field, final String parentField) {
+        Map<Long, JsonObject> map = new HashMap<>();
+        regionList.forEach(v -> {
+            v.getJsonArray(field, new JsonArray()).forEach(a -> {
+                final JsonObject jsonObject = toJsonObject(a);
+                map.put(jsonObject.getLong(QC.id), jsonObject.put(parentField,
+                        new JsonObject()
+                                .put(QC.id, v.getLong(QC.id))));
+            });
+        });
+        return map;
     }
 
     private void putInErrorBuilderForUser(final ErrorBuilder errorBuilder, final Collection<JsonObject> regionList, final Set<String> rListIdSet, final String field, final String label) {
-        errorBuilder.put(field, String.format(label + " % are invlid.", regionList.stream()
-                .filter(v -> !rListIdSet.contains(v.getString(QC.userId))).map(v -> String.format("[UserID: %d, Name: %s]",
-                        v.getString(QC.userId), v.getString(QC.name))).collect(Collectors.toList())));
+        errorBuilder.put(field, String.format(label + " %s are invlid.",
+                regionList.stream()
+                        .filter(v -> !rListIdSet.contains(v.getString(QC.userId)))
+                        .map(v -> String.format("[UserID: %d, Name: %s]",
+                                v.getString(QC.userId), v.getString(QC.name)))
+                        .collect(Collectors.toList())
+        ));
     }
 
     private void putInErrorBuilder(final ErrorBuilder errorBuilder, final Collection<JsonObject> regionList, final Set<Long> rListIdSet, final String field, final String label) {
-        errorBuilder.put(field, String.format(label + " % are invlid.", regionList.stream()
-                .filter(v -> !rListIdSet.contains(v.getLong(QC.id))).map(v -> String.format("[ID: %d, Name: %s]",
-                        v.getLong(QC.id), v.getString(QC.name))).collect(Collectors.toList())));
+        errorBuilder.put(field, String.format(label + " %s are invlid.",
+                regionList.stream()
+                        .filter(v -> !rListIdSet.contains(v.getLong(QC.id)))
+                        .map(v -> String.format("[ID: %d, Name: %s]",
+                                v.getLong(QC.id), v.getString(QC.name)))
+                        .collect(Collectors.toList())));
     }
 
     private Set<Long> idSet(List<JsonObject> rList) {

@@ -20,7 +20,6 @@ import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
-import static io.crm.QC.tree;
 import static io.crm.core.helper.Helper.checkRequired;
 import static io.crm.core.helper.Helper.validateDateFormat;
 import static io.crm.QC.id;
@@ -129,9 +128,9 @@ public class CampaignService {
 
                                 checkParent(aList, areaList, errorBuilder, QC.region, QC.area, QC.areaRegionId);
 
-                                Map<Long, JsonObject> houseList = collect(areaList.values(), mc.distribution_houses.name(), QC.area);
+                                Map<Long, JsonObject> houseList = collect(areaList.values(), mc.distributionHouses.name(), QC.area);
 
-                                app.getMongoClient().find(mc.distribution_houses.name(),
+                                app.getMongoClient().find(mc.distributionHouses.name(),
                                         new JsonObject()
                                                 .put(QC.id, new JsonObject()
                                                         .put(QC.$in, new JsonArray(houseList.values().stream().map(v -> v.getLong(QC.id)).collect(Collectors.toList())))),

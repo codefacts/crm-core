@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class LocationService {
     final mc collection = mc.locations;
-    final mc parent = mc.distribution_houses;
+    final mc parent = mc.distributionHouses;
     final String parentField = QC.distributionHouse;
     final String parentLabel = parent.label;
     final String parentIdField = QC.distributionHouseId;

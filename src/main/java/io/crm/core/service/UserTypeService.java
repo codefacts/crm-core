@@ -17,7 +17,7 @@ import static io.crm.util.ExceptionUtil.withReply;
  */
 @Component
 public class UserTypeService {
-    final mc regions = mc.user_types;
+    final mc regions = mc.userTypes;
     private final App app;
     @Autowired
     private DbService dbService;

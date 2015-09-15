@@ -124,7 +124,7 @@ public class MainVerticle extends AbstractVerticle {
                     m.setNextId(list.size() <= 0 ? 1 : (list.get(0).getLong(id) + 1));
                     final long nextId = m.getNextId();
                     final int length = EmployeeType.values().length;
-                    if (m == mc.user_types) {
+                    if (m == mc.userTypes) {
                         m.setNextId(nextId <= length ? length : nextId);
                     }
                     System.out.println(String.format("SETTING NEXT ID %d FOR %s", nextId, m.name()));
@@ -139,7 +139,7 @@ public class MainVerticle extends AbstractVerticle {
                 .onError(e -> handler.handle(fail(e))).get();
 
         for (EmployeeType employeeType : EmployeeType.values()) {
-            app.getMongoClient().insert(mc.user_types.name(), new JsonObject()
+            app.getMongoClient().insert(mc.userTypes.name(), new JsonObject()
                     .put(id, employeeType.id)
                     .put(name, employeeType.name())
                     .put(prefix, employeeType.prefix)

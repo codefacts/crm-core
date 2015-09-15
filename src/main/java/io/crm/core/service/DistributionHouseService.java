@@ -25,7 +25,7 @@ import java.util.List;
  */
 @Component
 public class DistributionHouseService {
-    final mc collection = mc.distribution_houses;
+    final mc collection = mc.distributionHouses;
     final mc parent = mc.areas;
     final String parentField = QC.area;
     final String parentLabel = parent.label;
@@ -63,7 +63,7 @@ public class DistributionHouseService {
 
             list.forEach(j -> {
                 j.remove(Location.distributionHouse);
-                app.getMongoClient().update(mc.distribution_houses.name(), new JsonObject().put(QC.id, j.getLong(QC.id, 0L)),
+                app.getMongoClient().update(mc.distributionHouses.name(), new JsonObject().put(QC.id, j.getLong(QC.id, 0L)),
                         Util.updateObject(new JsonObject().put(House.locations, new JsonArray().add(j))), taskCoordinator.add(rr -> {
                             System.out.println("COMPLETE: " + j.getString(QC.name) + " RESP: " + rr);
                         }));

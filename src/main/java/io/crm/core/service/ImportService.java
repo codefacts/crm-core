@@ -69,7 +69,7 @@ public class ImportService {
 
         insert(mc.areas, holder.areaList.values());
         insert(mc.regions, holder.regionList.values());
-        insert(mc.distribution_houses, holder.houseList.values());
+        insert(mc.distributionHouses, holder.houseList.values());
         insert(mc.brands, holder.brandList.values());
 
         insert(mc.locations, holder.locationList.values());
@@ -78,7 +78,7 @@ public class ImportService {
         final String[] files = new File(dir).list((f, name) -> name.startsWith(SMS_INBOX));
         for (String f : files) {
             final JsonArray contactList = contactList(f, campaign, holder);
-            insert(mc.consumer_contacts, contactList);
+            insert(mc.consumerContacts, contactList);
         }
     }
 

@@ -132,7 +132,7 @@ public class ImportService {
         final JsonArray array = new JsonArray();
 
         holder.userList.forEach((k, user) -> {
-            if (Helper.employeeType(user) == EmployeeType.br_supervisor) {
+            if (Helper.employeeType(user) == EmployeeType.brSupervisor) {
                 final Long actualId = user.getLong(id);
                 final Long sup_id = holder.ac_sup_relation.get(actualId);
                 user.put(Sup.ac, holder.userList.get(sup_id));
@@ -326,7 +326,7 @@ public class ImportService {
                     .put(User.password, json.getString("password"))
                     .put(active, json.getInteger("ACTIVE"));
 
-            if (employeeType == EmployeeType.br_supervisor) {
+            if (employeeType == EmployeeType.brSupervisor) {
                 user.put(Sup.campaign, campaign);
             }
 
@@ -500,12 +500,12 @@ public class ImportService {
 
     private static final class UserIdGenerator {
         final UserId ad = new UserId(EmployeeType.admin.prefix + "-");
-        final UserId ho = new UserId(EmployeeType.head_office.prefix + "-");
-        final UserId ac = new UserId(EmployeeType.area_coordinator.prefix + "-");
-        final UserId sp = new UserId(EmployeeType.br_supervisor.prefix + "-");
+        final UserId ho = new UserId(EmployeeType.headOffice.prefix + "-");
+        final UserId ac = new UserId(EmployeeType.areaCoordinator.prefix + "-");
+        final UserId sp = new UserId(EmployeeType.brSupervisor.prefix + "-");
         final UserId br = new UserId(EmployeeType.br.prefix + "-");
-        final UserId co = new UserId(EmployeeType.call_operator.prefix + "-");
-        final UserId cs = new UserId(EmployeeType.call_center_supervisor.prefix + "-");
+        final UserId co = new UserId(EmployeeType.callOperator.prefix + "-");
+        final UserId cs = new UserId(EmployeeType.callCenterSupervisor.prefix + "-");
 
         public String nextId(Long user_type_id) {
             switch (user_type_id.intValue()) {

@@ -40,10 +40,4 @@ public class Helper {
         if (isNull) errorBuilder.put(fieldName, message);
         return isNull;
     }
-
-    public static boolean validateDateFormat(ErrorBuilder errorBuilder, String date, String fieldName, String errorMessage) {
-        final boolean isInvalid = parseMongoDate(date, null) == null;
-        if (isInvalid) errorBuilder.put(fieldName, errorMessage);
-        return isInvalid;
-    }
 }

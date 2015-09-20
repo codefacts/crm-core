@@ -13,7 +13,6 @@ import io.vertx.ext.mongo.MongoClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import static io.crm.QC.brand;
 import static io.crm.QC.id;
 import static io.crm.util.ExceptionUtil.withReply;
 import static io.crm.util.ExceptionUtil.withReplyRun;
@@ -91,7 +90,7 @@ public class DbService {
 
         final TaskCoordinator taskCoordinator = TaskCoordinatorBuilder.create()
                 .onSuccess(() -> {
-                    final JsonObject errors = errorBuilder.get();
+                    final JsonObject errors = errorBuilder.build();
                     if (errors.size() > 0) {
                         message.fail(FailureCode.validationError.code, errors.encode());
                         return;
@@ -143,7 +142,7 @@ public class DbService {
 
         final TaskCoordinator taskCoordinator = TaskCoordinatorBuilder.create()
                 .onSuccess(() -> {
-                    final JsonObject errors = errorBuilder.get();
+                    final JsonObject errors = errorBuilder.build();
                     if (errors.size() > 0) {
                         message.fail(FailureCode.validationError.code, errors.encode());
                         return;
@@ -187,7 +186,7 @@ public class DbService {
 
         final TaskCoordinator taskCoordinator = TaskCoordinatorBuilder.create()
                 .onSuccess(() -> {
-                    final JsonObject errors = errorBuilder.get();
+                    final JsonObject errors = errorBuilder.build();
                     if (errors.size() > 0) {
                         message.fail(FailureCode.validationError.code, errors.encode());
                         return;

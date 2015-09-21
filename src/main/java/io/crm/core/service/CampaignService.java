@@ -30,16 +30,11 @@ public class CampaignService {
     }
 
     public void create(final Message<JsonObject> message) {
-        final JsonObject campaign = message.body();
-        final mc campaigns = mc.campaigns;
-        dbService.validateIdAndNameOnCreate(campaign, obj -> {
 
-            final ErrorBuilder errorBuilder = new ErrorBuilder();
-            dbService.validateBrandId(Util.id(campaign.getValue(QC.brand)), brandValidation -> {
-
-                if (brandValidation != null) {
-                    errorBuilder.put(QC.brand, brandValidation);
-                }
+        app.getBus().send(Events.VALIDATE_CAMPAIGN, message.body(), withReply((Message<JsonObject> m) -> {
+            System.out.println(m.body().encodePrettily());
+            message.reply(null);
+        }, message));
 
 //                app.getMongoClient().insert(campaigns + "", campaign.put(id, campaigns.getNextId())
 //                                .put(Campaign.brand, brandResutl.result()),
@@ -49,10 +44,6 @@ public class CampaignService {
 //                            app.getBus().publish(Events.NEW_CAMPAIGN_CREATED, campaign);
 //                            System.out.println("CAMPAIGN CREATION SUCCESSFUL. CAMPAIGN: " + campaign);
 //                        }, message));
-
-            }, message);
-
-        }, campaigns, message);
     }
 
     public void update(Message<JsonObject> message) {

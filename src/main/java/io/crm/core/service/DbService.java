@@ -84,7 +84,7 @@ public class DbService {
         }, collection, message);
     }
 
-    public void validateIdAndNameOnCreate(JsonObject obj, ConsumerInterface<JsonObject> consumerInterface, final mc collection, Message message) {
+    public void validateIdAndNameOnCreate(JsonObject obj, ConsumerUnchecked<JsonObject> consumerUnchecked, final mc collection, Message message) {
 
         final ErrorBuilder errorBuilder = ErrorBuilder.create();
 
@@ -95,7 +95,7 @@ public class DbService {
                         message.fail(FailureCode.validationError.code, errors.encode());
                         return;
                     }
-                    consumerInterface.accept(obj);
+                    consumerUnchecked.accept(obj);
                 })
                 .count(2)
                 .message(message)
@@ -136,7 +136,7 @@ public class DbService {
         }
     }
 
-    public void validateIdAndNameOnEdit(JsonObject obj, ConsumerInterface<JsonObject> consumerInterface, final mc collection, Message message) {
+    public void validateIdAndNameOnEdit(JsonObject obj, ConsumerUnchecked<JsonObject> consumerUnchecked, final mc collection, Message message) {
 
         final ErrorBuilder errorBuilder = ErrorBuilder.create();
 
@@ -147,7 +147,7 @@ public class DbService {
                         message.fail(FailureCode.validationError.code, errors.encode());
                         return;
                     }
-                    consumerInterface.accept(obj);
+                    consumerUnchecked.accept(obj);
                 })
                 .count(1)
                 .message(message)
@@ -180,7 +180,7 @@ public class DbService {
         }
     }
 
-    public void validateParentId(JsonObject obj, ConsumerInterface<JsonObject> consumerInterface, mc parent, String parentField, String parentIdField, String parentLabel, Message message) {
+    public void validateParentId(JsonObject obj, ConsumerUnchecked<JsonObject> consumerUnchecked, mc parent, String parentField, String parentIdField, String parentLabel, Message message) {
 
         final ErrorBuilder errorBuilder = ErrorBuilder.create();
 
@@ -191,7 +191,7 @@ public class DbService {
                         message.fail(FailureCode.validationError.code, errors.encode());
                         return;
                     }
-                    consumerInterface.accept(obj);
+                    consumerUnchecked.accept(obj);
                 })
                 .count(1)
                 .message(message)
@@ -216,7 +216,7 @@ public class DbService {
         }
     }
 
-    public void validateBrandId(final Long brandId, final ConsumerInterface<JsonObject> consumer, final Message message) {
+    public void validateBrandId(final Long brandId, final ConsumerUnchecked<JsonObject> consumer, final Message message) {
         app.getMongoClient().findOne(mc.brands.name(), new JsonObject().put(QC.id, brandId),
                 new JsonObject().put(QC.id, true), rr -> {
 

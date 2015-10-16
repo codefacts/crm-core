@@ -11,7 +11,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="common-crm" />
+    <orderEntry type="module" module-name="common" />
     <orderEntry type="module" module-name="schema-validation" />
     <orderEntry type="library" name="Maven: org.hibernate:hibernate-validator:5.2.1.Final" level="project" />
     <orderEntry type="library" name="Maven: javax.validation:validation-api:1.1.0.Final" level="project" />

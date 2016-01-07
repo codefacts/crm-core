@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/../call_center" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../code_generator" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../crm-common" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources/crm/db.json" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/src/main/resources/crm/tables" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/../crm-query" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../crm-web" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../grossary" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../schema-validation" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../shopy" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../sql-core" charset="UTF-8" />
+    <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

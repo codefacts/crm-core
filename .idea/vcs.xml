@@ -2,5 +2,11 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../crm-common" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../crm-query" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../crm-web" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../schema-validation" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../shopy" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../sql-core" vcs="Git" />
   </component>
 </project>

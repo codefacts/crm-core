@@ -2,7 +2,16 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../call_center/call_center.iml" filepath="$PROJECT_DIR$/../call_center/call_center.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../code_generator/code_generator.iml" filepath="$PROJECT_DIR$/../code_generator/code_generator.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../crm-common/common.iml" filepath="$PROJECT_DIR$/../crm-common/common.iml" />
       <module fileurl="file://$PROJECT_DIR$/crm-core.iml" filepath="$PROJECT_DIR$/crm-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../grossary/grossary.iml" filepath="$PROJECT_DIR$/../grossary/grossary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../crm-query/query.iml" filepath="$PROJECT_DIR$/../crm-query/query.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../schema-validation/schema-validation.iml" filepath="$PROJECT_DIR$/../schema-validation/schema-validation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../shopy/shopy.iml" filepath="$PROJECT_DIR$/../shopy/shopy.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../sql-core/sql-core.iml" filepath="$PROJECT_DIR$/../sql-core/sql-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../crm-web/web.iml" filepath="$PROJECT_DIR$/../crm-web/web.iml" />
     </modules>
   </component>
 </project>

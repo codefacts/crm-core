@@ -39,6 +39,7 @@
         <module name="call_center" />
         <module name="code_generator" />
         <module name="grossary" />
+        <module name="merchandiser-supervisor" />
         <module name="shopy" />
         <module name="sql-core" />
         <module name="web" />
@@ -64,6 +65,7 @@
       <module name="common" target="1.8" />
       <module name="crm-core" target="1.8" />
       <module name="grossary" target="1.8" />
+      <module name="merchandiser-supervisor" target="1.8" />
       <module name="query" target="1.8" />
       <module name="schema-validation" target="1.8" />
       <module name="shopy" target="1.8" />

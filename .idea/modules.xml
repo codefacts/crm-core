@@ -7,6 +7,7 @@
       <module fileurl="file://$PROJECT_DIR$/../crm-common/common.iml" filepath="$PROJECT_DIR$/../crm-common/common.iml" />
       <module fileurl="file://$PROJECT_DIR$/crm-core.iml" filepath="$PROJECT_DIR$/crm-core.iml" />
       <module fileurl="file://$PROJECT_DIR$/../grossary/grossary.iml" filepath="$PROJECT_DIR$/../grossary/grossary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../merchandiser-supervisor/merchandiser-supervisor.iml" filepath="$PROJECT_DIR$/../merchandiser-supervisor/merchandiser-supervisor.iml" />
       <module fileurl="file://$PROJECT_DIR$/../crm-query/query.iml" filepath="$PROJECT_DIR$/../crm-query/query.iml" />
       <module fileurl="file://$PROJECT_DIR$/../schema-validation/schema-validation.iml" filepath="$PROJECT_DIR$/../schema-validation/schema-validation.iml" />
       <module fileurl="file://$PROJECT_DIR$/../shopy/shopy.iml" filepath="$PROJECT_DIR$/../shopy/shopy.iml" />

@@ -1,15 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="114f473e-272f-438f-a0d1-15e5e74eae4f" name="Default" comment="">
+    <list default="true" id="114f473e-272f-438f-a0d1-15e5e74eae4f" name="Default" comment="Conditional Promise Fixed">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/io/crm/core/MainVerticle.java" afterPath="$PROJECT_DIR$/src/main/java/io/crm/core/MainVerticle.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../sql-core/src/main/java/io/crm/sql/MainVerticle.java" afterPath="$PROJECT_DIR$/../sql-core/src/main/java/io/crm/sql/MainVerticle.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../sql-core/src/main/java/io/crm/sql/MyApp.java" afterPath="$PROJECT_DIR$/../sql-core/src/main/java/io/crm/sql/MyApp.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../sql-core/src/main/java/io/crm/sql/MyEvents.java" afterPath="$PROJECT_DIR$/../sql-core/src/main/java/io/crm/sql/MyEvents.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../sql-core/src/main/java/io/crm/sql/MyMessageCodes.java" afterPath="$PROJECT_DIR$/../sql-core/src/main/java/io/crm/sql/MyMessageCodes.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../sql-core/src/main/java/io/crm/sql/service/Services.java" afterPath="$PROJECT_DIR$/../sql-core/src/main/java/io/crm/sql/service/Services.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../sql-core/src/main/java/io/crm/sql/ss.java" afterPath="$PROJECT_DIR$/../sql-core/src/main/java/io/crm/sql/ss.java" />
     </list>
     <ignored path="crm-core.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -54,8 +48,8 @@
       <file leaf-file-name="ContactService.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/../grossary/src/main/java/com/imslbd/grossary/service/ContactService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.13559322">
-              <caret line="251" column="0" selection-start-line="251" selection-start-column="0" selection-end-line="251" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.6497175">
+              <caret line="261" column="13" selection-start-line="261" selection-start-column="13" selection-end-line="261" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -898,11 +892,11 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="24" width="959" height="744" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32903227" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.38064516" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.38064516" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5419355" sideWeight="0.50821465" order="11" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.347207" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -1610,8 +1604,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/../grossary/src/main/java/com/imslbd/grossary/service/ContactService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.13559322">
-          <caret line="251" column="0" selection-start-line="251" selection-start-column="0" selection-end-line="251" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.6497175">
+          <caret line="261" column="13" selection-start-line="261" selection-start-column="13" selection-end-line="261" selection-end-column="13" />
           <folding />
         </state>
       </provider>

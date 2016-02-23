@@ -7,10 +7,6 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../crm-common/target/classes/io/crm/promise/PromiseImpl.class" afterPath="$PROJECT_DIR$/../crm-common/target/classes/io/crm/promise/PromiseImpl.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../crm-common/target/classes/io/crm/promise/intfs/Promise.class" afterPath="$PROJECT_DIR$/../crm-common/target/classes/io/crm/promise/intfs/Promise.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../crm-common/target/classes/test/PromiseAllTest.class" afterPath="$PROJECT_DIR$/../crm-common/target/classes/test/PromiseAllTest.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../crm-common/src/main/java/io/crm/promise/ConditionalPromiseImpl.java" afterPath="$PROJECT_DIR$/../crm-common/src/main/java/io/crm/promise/ConditionalPromiseImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../crm-common/src/main/java/io/crm/promise/PromiseImpl.java" afterPath="$PROJECT_DIR$/../crm-common/src/main/java/io/crm/promise/PromiseImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../crm-common/src/main/java/io/crm/promise/intfs/Promise.java" afterPath="$PROJECT_DIR$/../crm-common/src/main/java/io/crm/promise/intfs/Promise.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../crm-common/src/main/java/test/PromiseAllTest.java" afterPath="$PROJECT_DIR$/../crm-common/src/main/java/test/PromiseAllTest.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/io/crm/core/MainVerticle.java" afterPath="$PROJECT_DIR$/src/main/java/io/crm/core/MainVerticle.java" />
     </list>
@@ -1239,7 +1235,13 @@
       <option name="project" value="LOCAL" />
       <updated>1456213317215</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="Promise.Filter ADDED">
+      <created>1456232562617</created>
+      <option name="number" value="00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1456232562617</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -1346,7 +1348,8 @@
     <MESSAGE value="LOGGING ADDED" />
     <MESSAGE value="BEFORE DELETE TRACE, DEBUG" />
     <MESSAGE value="LOGGER FINE TUNE DONE; BEFOR PROMISE.FILTER ADDING" />
-    <option name="LAST_COMMIT_MESSAGE" value="LOGGER FINE TUNE DONE; BEFOR PROMISE.FILTER ADDING" />
+    <MESSAGE value="Promise.Filter ADDED" />
+    <option name="LAST_COMMIT_MESSAGE" value="Promise.Filter ADDED" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

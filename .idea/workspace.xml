@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="114f473e-272f-438f-a0d1-15e5e74eae4f" name="Default" comment="Promise.Filter ADDED">
+    <list default="true" id="114f473e-272f-438f-a0d1-15e5e74eae4f" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../crm-common/target/common-1.0-SNAPSHOT-fat.jar" afterPath="$PROJECT_DIR$/../crm-common/target/common-1.0-SNAPSHOT-fat.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../crm-common/target/common-1.0-SNAPSHOT.jar" afterPath="$PROJECT_DIR$/../crm-common/target/common-1.0-SNAPSHOT.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../call_center/src/main/resources/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../call_center/src/main/resources/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../call_center/src/main/resources/my-public/js/CallSubmitForm.js" afterPath="$PROJECT_DIR$/../call_center/src/main/resources/my-public/js/CallSubmitForm.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../call_center/src/main/resources/my-public/js/TablePrimary.js" afterPath="$PROJECT_DIR$/../call_center/src/main/resources/my-public/js/TablePrimary.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../call_center/src/main/resources/my-public/js/WorkDayDetailsTable.js" afterPath="$PROJECT_DIR$/../call_center/src/main/resources/my-public/js/WorkDayDetailsTable.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../crm-common/target/maven-archiver/pom.properties" afterPath="$PROJECT_DIR$/../crm-common/target/maven-archiver/pom.properties" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/io/crm/core/MainVerticle.java" afterPath="$PROJECT_DIR$/src/main/java/io/crm/core/MainVerticle.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../crm-web/src/main/resources/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../crm-web/src/main/resources/.idea/workspace.xml" />
     </list>
     <list id="27a05de4-c705-47f1-8167-b997e40b6aba" name="Failed commit: Default" comment="Promise.Filter ADDED" />
     <ignored path="crm-core.iws" />
@@ -643,6 +638,13 @@
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
   </component>
+  <component name="Push.Settings">
+    <excluded-roots>
+      <path value="$PROJECT_DIR$/../crm-common" />
+      <path value="$PROJECT_DIR$" />
+      <path value="$PROJECT_DIR$/../crm-web" />
+    </excluded-roots>
+  </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/../call_center/src/test" />
@@ -1265,7 +1267,13 @@
       <option name="project" value="LOCAL" />
       <updated>1456232787769</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="CallCenter: G.A. REF. PackSell Add for DERBY_SPECIAL_JAN">
+      <created>1456400387831</created>
+      <option name="number" value="00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1456400387831</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -1374,7 +1382,8 @@
     <MESSAGE value="BEFORE DELETE TRACE, DEBUG" />
     <MESSAGE value="LOGGER FINE TUNE DONE; BEFOR PROMISE.FILTER ADDING" />
     <MESSAGE value="Promise.Filter ADDED" />
-    <option name="LAST_COMMIT_MESSAGE" value="Promise.Filter ADDED" />
+    <MESSAGE value="CallCenter: G.A. REF. PackSell Add for DERBY_SPECIAL_JAN" />
+    <option name="LAST_COMMIT_MESSAGE" value="CallCenter: G.A. REF. PackSell Add for DERBY_SPECIAL_JAN" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
